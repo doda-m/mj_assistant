@@ -22,7 +22,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
             height: MediaQuery.of(context).size.height / 4,
             child: RotatedBox(
               quarterTurns: 2,
-              child: _playerDisplay(3),
+              child: _playerDisplay(2),
             )
           ),
           Container(
@@ -36,15 +36,20 @@ class _FourPlayerState extends State<FourPlayerPage> {
                   width: MediaQuery.of(context).size.width / 4,
                   child: RotatedBox(
                     quarterTurns: 1,
-                    child: _playerDisplay(4),
+                    child: _playerDisplay(3),
                   ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  width: MediaQuery.of(context).size.width / 2,
+                  color: Colors.greenAccent,
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width / 4,
                   child: RotatedBox(
                     quarterTurns: 3,
-                    child: _playerDisplay(2),
+                    child: _playerDisplay(1),
                   ),
                 ),
               ],
@@ -52,7 +57,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
           ),
           Container(
             height: MediaQuery.of(context).size.height / 4,
-            child: _playerDisplay(1),
+            child: _playerDisplay(0),
           ),
         ],
       )
@@ -64,9 +69,12 @@ class _FourPlayerState extends State<FourPlayerPage> {
         child: Column(
           children: [
             Container(
-              height: 25,
+              height: 30,
                 child: Center(
-                  child: Text(_controlPlayerPoint.readPoint(_index).toString()),
+                  child: Text(_controlPlayerPoint.readPoint(_index).toString(),
+                  style: TextStyle(
+                    fontSize: 30
+                  ),),
                 ),
             ),
             Row(
