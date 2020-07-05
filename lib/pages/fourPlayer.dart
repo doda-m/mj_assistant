@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mj_assistant/background/effectDisplay.dart';
 import 'package:mj_assistant/background/ctlPlayer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,6 +10,7 @@ class FourPlayerPage extends StatefulWidget {
 
 class _FourPlayerState extends State<FourPlayerPage> {
   ControlPlayer ctlPlayer;
+  EffectDisplay effectDisplay;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,11 @@ class _FourPlayerState extends State<FourPlayerPage> {
           builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
             if (snapshot.hasData) {
                ctlPlayer = ControlPlayer(snapshot.data);
+               effectDisplay = EffectDisplay(snapshot.data);
                if (null == ctlPlayer.ctlPoint.readPoint(0).toString()) {
                  setState(() {
-                   ctlPlayer.ctlPoint.resetPoint();
+                   ctlPlayer.reset();
+                   effectDisplay.reset();
                  });
                }
             }
