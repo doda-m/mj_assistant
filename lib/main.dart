@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'pages/fourPlayer.dart';
+import 'pages/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
 
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: FourPlayerPage(),
+      home: HomePage(),
       routes: <String, WidgetBuilder> {
+        '/home': (BuildContext context) => HomePage(),
         '/fourPlayer': (BuildContext context) => FourPlayerPage(),
         '/PointTable': (BuildContext context) => PointTablePage(),
       },
