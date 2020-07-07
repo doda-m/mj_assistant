@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/ctlApp.dart';
+import 'package:mj_assistant/pages/pointTable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const bool TSUMO = true;
+const bool RON = false;
 
 class FourPlayerPage extends StatefulWidget {
   @override
@@ -22,17 +26,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
           future: SharedPreferences.getInstance(),
           builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
             if (snapshot.hasData) {
-//               ctlPlayer = ControlPlayer(snapshot.data);
-//               if (null == ctlPlayer.ctlPoint.readPoint(0).toString()) {
-//                 setState(() {
-//                   ctlPlayer.reset();
-//                   effectDisplay.reset();
-//                 });
-//               }
                ctlApp = ControlApplication(snapshot.data);
-//               setState(() {
-//                 ctlApp.init();
-//               });
             }
             else {
               return Center(
@@ -119,11 +113,6 @@ class _FourPlayerState extends State<FourPlayerPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _myWind(_index),
-//                    Text(ctlApp.getWind(_index),
-//                    style: TextStyle(
-//                      fontSize: 20,
-//                    ),
-//                    ),
                     const SizedBox(width: 5, height: 0,),
                     Center(
                         child: RaisedButton(
@@ -155,7 +144,16 @@ class _FourPlayerState extends State<FourPlayerPage> {
                   color: Colors.lightBlueAccent,
                   child: Text("ツモ"),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/tsumoPointTable');
+                    Navigator.push(
+                        this.context,
+                        MaterialPageRoute(
+                            builder: (context) => PointTablePage(
+                              ctlApp: ctlApp,
+                              playerIndex: _index,
+                              grain: TSUMO,
+                            )
+                        )
+                    );
                   },
                 ),
               ],
@@ -178,19 +176,35 @@ class _FourPlayerState extends State<FourPlayerPage> {
               RaisedButton(
                 child: Text("次局"),
                 onPressed: () {
-                  null;
+                  setState(() {
+                    ctlApp.nextStation();
+                  });
                 },
               ),
               RaisedButton(
-                child: Text("連荘"),
+                child: Row(
+                  children: [
+                    Text("連荘"),
+                    Icon(Icons.add),
+                  ],
+                ),
                 onPressed: () {
-                  null;
+                  setState(() {
+                    ctlApp.incrementPlace();
+                  });
                 },
               ),
               RaisedButton(
-                child: Text("前局"),
+                child: Row(
+                  children: [
+                    Text("連荘"),
+                    Icon(Icons.remove),
+                  ],
+                ),
                 onPressed: () {
-                  null;
+                  setState(() {
+                    ctlApp.decreasePlace();
+                  });
                 },
               ),
               ],
@@ -212,7 +226,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
                 child: Text("リセット"),
                 onPressed: () {
                   setState(() {
-                    ctlApp.ctlPlayer.reset();
+                    ctlApp.reset();
                   });
                 },
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'pages/fourPlayer.dart';
 import 'pages/home.dart';
+import 'background/ctlApp.dart';
 
 void main() {
   runApp(MyApp());

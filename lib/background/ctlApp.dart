@@ -38,16 +38,27 @@ class ControlApplication {
     _prefs.setInt(FOUR_WIND, 0);
     _prefs.setInt(FOUR_STATION, 0);
     _prefs.setInt(FOUR_PLACE, 0);
+    ctlPlayer.reset();
   }
 
   void incrementPlace () {
     place++;
     _prefs.setInt(FOUR_PLACE, place);
+    reachSticks += ctlPlayer.reachReset();
+  }
+
+  void decreasePlace () {
+    if (0 < place) {
+      place--;
+      _prefs.setInt(FOUR_PLACE, place);
+    }
   }
 
   void nextStation() {
     place = 0;
     station++;
+    parent++;
+    _prefs.setInt(FOUR_PARENT, parent);
     if (3 < station) {
       station = 0;
       wind++;
@@ -55,6 +66,7 @@ class ControlApplication {
     }
     _prefs.setInt(FOUR_STATION, station);
     _prefs.setInt(FOUR_PLACE, place);
+    reachSticks += ctlPlayer.reachReset();
   }
 
   String getWind(int index) {
@@ -64,11 +76,15 @@ class ControlApplication {
   String getStation() {
     int nowWind = _prefs.getInt(FOUR_WIND);
     int nowStation = _prefs.getInt(FOUR_STATION);
-    return windList[nowWind] + stationList[nowStation];
+    return windList[nowWind % 4] + stationList[nowStation % 4];
   }
 
   int getPlace() {
     return _prefs.getInt(FOUR_PLACE);
+  }
+
+  int getReachSticks() {
+    return reachSticks;
   }
 
   int getParent() {

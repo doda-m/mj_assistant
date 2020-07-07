@@ -44,6 +44,18 @@ class ControlPlayer{
       ctlPoint.reachCancel(index);
     }
   }
+  
+  int reachReset() {
+    int ret = 0;
+    for (int i = 0; i < 4; i++) {
+      if (Colors.redAccent == reachList[i]) {
+        ret++;
+        _prefs.setInt(FOUR_REACH_PATH + players[i], UNREACH);
+        reachList[i] = Colors.grey;
+      }
+    }
+    return ret;
+  }
 
   Color reachStatus(int index) {
     return reachList[index];
