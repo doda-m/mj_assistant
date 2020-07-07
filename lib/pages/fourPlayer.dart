@@ -8,7 +8,6 @@ class FourPlayerPage extends StatefulWidget {
 }
 
 class _FourPlayerState extends State<FourPlayerPage> {
-//  ControlPlayer ctlPlayer;
   ControlApplication ctlApp;
   bool decideParent = false;
 
