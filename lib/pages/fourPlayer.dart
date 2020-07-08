@@ -153,7 +153,11 @@ class _FourPlayerState extends State<FourPlayerPage> {
                               grain: TSUMO,
                             )
                         )
-                    );
+                    ).then((value) {
+                      setState(() {
+                        null;
+                      });
+                    });
                   },
                 ),
               ],

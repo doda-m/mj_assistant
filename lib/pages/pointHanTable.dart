@@ -7,9 +7,7 @@ const bool RON = false;
 
 class PointHanTablePage extends StatelessWidget {
   static bool parentFlag = false;
-  const List<List<String> childTsumoList= [
-    [1000]
-  ];
+
   final ControlApplication ctlApp;
   final int playerIndex;
   final bool grain;

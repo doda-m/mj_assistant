@@ -14,83 +14,90 @@ const List<String> pointList = ['満貫', '跳満', '倍満', '三倍満', '役�
 
 final List<String> han = ['1翻', '2翻', '3翻', '4翻',];
 
-class ChildTsumoPointTable {
-  final List<Tsumo> twenty = [Tsumo(0,0), Tsumo(400, 700), Tsumo(700, 1300), Tsumo(1300, 2600), Tsumo(2000, 4000)];
-  final List<Tsumo> twentyFive = [Tsumo(0,0), Tsumo(400, 800), Tsumo(800, 1600), Tsumo(1600, 3200), Tsumo(2000, 4000)];
-  static List<Tsumo> thirty = [Tsumo(300, 500), Tsumo(500, 1000), Tsumo(1000, 2000), Tsumo(2000, 3900), Tsumo(2000, 4000)];
-  final List<Tsumo> forty = [Tsumo(400, 700), Tsumo(700, 1300), Tsumo(1300, 2600), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-  final List<Tsumo> fifty = [Tsumo(400, 800), Tsumo(800, 1600), Tsumo(1600, 3200), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-  static List<Tsumo> sixty = [Tsumo(500, 1000), Tsumo(1000, 2000), Tsumo(2000, 3900), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-  final List<Tsumo> seventy = [Tsumo(600, 1200), Tsumo(1200, 2300), Tsumo(2000, 4000), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-  final List<Tsumo> eighty = [Tsumo(700, 1300), Tsumo(1300, 2600), Tsumo(2000, 4000), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-  final List<Tsumo> ninety = [Tsumo(800, 1500), Tsumo(1500, 2900), Tsumo(2000, 4000), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-  final List<Tsumo> hundred = [Tsumo(800, 1600), Tsumo(1600, 3200), Tsumo(2000, 4000), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-  final List<Tsumo> hundredTen = [Tsumo(900, 1800), Tsumo(1800, 3600), Tsumo(2000, 4000), Tsumo(2000, 4000), Tsumo(2000, 4000)];
-}
-
-class ParentTsumoPointTable {
-  final List<int> twenty = [0, 700, 1300, 2600, 4000];
-  final List<int> twentyFive = [0, 800, 1600, 3200, 4000];
-  static List<int> thirty = [500, 1000, 2000, 3900, 4000];
-  final List<int> forty = [700, 1300, 2600, 4000, 4000];
-  final List<int> fifty = [800, 1600, 3200, 4000, 4000];
-  static List<int> sixty = [1000, 2000, 3900, 4000, 4000];
-  final List<int> seventy = [1200, 2300, 4000, 4000, 4000];
-  final List<int> eighty = [1300, 2600, 4000, 4000, 4000];
-  final List<int> ninety = [1500, 2900, 4000, 4000, 4000];
-  final List<int> hundred = [1600, 3200, 4000, 4000, 4000];
-  final List<int> hundredTen = [1800, 3600, 4000, 4000, 4000];
-}
-
-class ChildRonPointTable {
-  final List<int> twentyFive = [0, 1600, 3200, 6400, 8000];
-  static List<int> thirty = [1000, 2000, 3900, 7700, 8000];
-  final List<int> forty = [1300, 2600, 5200, 8000, 8000];
-  final List<int> fifty = [1600, 3200, 6400, 8000, 8000];
-  static List<int> sixty = [2000, 3900, 7700, 8000, 8000];
-  final List<int> seventy = [2300, 4500, 8000, 8000, 8000];
-  final List<int> eighty = [2600, 5200, 8000, 8000, 8000];
-  final List<int> ninety = [2900, 5800, 8000, 8000, 8000];
-  final List<int> hundred = [3200, 6400, 8000, 8000, 8000];
-  final List<int> hundredTen = [3600, 7100, 8000, 8000, 8000];
-}
-
-class ParentRonPointTable {
-  final List<int> twentyFive = [0, 2400, 4800, 9600, 12000];
-  static List<int> thirty = [1500, 2900, 5800, 11600, 12000];
-  final List<int> forty = [2000, 3900, 7700, 12000, 12000];
-  final List<int> fifty = [2400, 4800, 9600, 12000, 12000];
-  static List<int> sixty = [2900, 5800, 11600, 12000, 12000];
-  final List<int> seventy = [3400, 6800, 12000, 12000, 12000];
-  final List<int> eighty = [3900, 7700, 12000, 12000, 12000];
-  final List<int> ninety = [4400, 8700, 12000, 12000, 12000];
-  final List<int> hundred = [4800, 9600, 12000, 12000, 12000];
-  final List<int> hundredTen = [5300, 10600, 12000, 12000, 12000];
-}
-
-const List<Widget> cTwenty = [
-  Text('20符', textAlign: TextAlign.center,),
-  FlatButton(
-    child: Text('-\n-', textAlign: TextAlign.center,),
-  ),
-  Text('-\n400/700', textAlign: TextAlign.center,),
-  Text('-\n700/1300', textAlign: TextAlign.center,),
-  Text('-\n1300/2600', textAlign: TextAlign.center,),
+final List<List<Tsumo>> childTsumoPointTable = [
+  [Tsumo(0,0), Tsumo(400, 700), Tsumo(700, 1300), Tsumo(1300, 2600),],
+  [Tsumo(0,0), Tsumo(400, 800), Tsumo(800, 1600), Tsumo(1600, 3200),],
+  [Tsumo(300, 500), Tsumo(500, 1000), Tsumo(1000, 2000), Tsumo(2000, 3900),],
+  [Tsumo(400, 700), Tsumo(700, 1300), Tsumo(1300, 2600),],
+  [Tsumo(400, 800), Tsumo(800, 1600), Tsumo(1600, 3200),],
+  [Tsumo(500, 1000), Tsumo(1000, 2000), Tsumo(2000, 3900),],
+  [Tsumo(600, 1200), Tsumo(1200, 2300),],
+  [Tsumo(700, 1300), Tsumo(1300, 2600),],
+  [Tsumo(800, 1500), Tsumo(1500, 2900),],
+  [Tsumo(800, 1600), Tsumo(1600, 3200),],
+  [Tsumo(900, 1800), Tsumo(1800, 3600),],
+  [Tsumo(2000, 4000), Tsumo(3000, 4000), Tsumo(4000, 8000), Tsumo(6000, 12000), Tsumo(8000, 16000),],
 ];
 
-
-const List<Widget> cTwentyFive = [
-  Text('25符', textAlign: TextAlign.center,),
-  Text('-\n-', textAlign: TextAlign.center,),
-  Text('-\n400/800', textAlign: TextAlign.center,),
-  Text('-\n800/1600', textAlign: TextAlign.center,),
-  Text('-\n1600/3200', textAlign: TextAlign.center,),
+const List<List<int>> parentTsumoPointTable = [
+  [0, 700, 1300, 2600,],
+  [0, 800, 1600, 3200,],
+  [500, 1000, 2000, 3900,],
+  [700, 1300, 2600,],
+  [800, 1600, 3200,],
+  [1000, 2000, 3900,],
+  [1200, 2300,],
+  [1300, 2600,],
+  [1500, 2900,],
+  [1600, 3200,],
+  [1800, 3600,],
+  [4000, 6000, 8000, 12000, 16000,],
 ];
 
-const List<Widget> cThirty = [
-  Text('30符', textAlign: TextAlign.center,),
-  Text('1000\n300/500', textAlign: TextAlign.center,),
-  Text('2000\n500/100', textAlign: TextAlign.center,),
-  Text('3900\n1000/2000', textAlign: TextAlign.center,),
-  Text('7700\n2000/3900', textAlign: TextAlign.center,),
+const List<List<int>> childRonPointTable = [
+  [0,],
+  [0, 1600, 3200, 6400,],
+  [1000, 2000, 3900, 7700,],
+  [1300, 2600, 5200,],
+  [1600, 3200, 6400,],
+  [2000, 3900, 7700,],
+  [2300, 4500,],
+  [2600, 5200,],
+  [2900, 5800,],
+  [3200, 6400,],
+  [3600, 7100,],
+  [8000, 12000, 16000, 24000, 32000],
+];
+
+const List<List<int>> parentRonPointTable = [
+  [0,],
+  [0, 2400, 4800, 9600,],
+  [1500, 2900, 5800, 11600,],
+  [2000, 3900, 7700,],
+  [2400, 4800, 9600,],
+  [2900, 5800, 11600,],
+  [3400, 6800,],
+  [3900, 7700,],
+  [4400, 8700,],
+  [4800, 9600,],
+  [5300, 10600,],
+  [12000, 18000, 24000, 36000, 48000],
+];
+
+const List<List<String>> childTable = [
+  ['--\n--', '--\n400/700', '--\n700/1300', '--\n1300/2500'],
+  ['--\n--', '1600\n400/800', '3200\n800/1600', '6400\n1600/3200'],
+  ['1000\n300/500', '2000\n500/1000', '3900\n1000/2000', '7700\n2000/3900'],
+  ['1300\n400/700', '2600\n700/1300', '5200\n1300/2600', '--\n--'],
+  ['1600\n400/800', '3200\n800/1600', '6400\n1600/3200', '--\n--'],
+  ['2000\n500/1000', '3900\n1000/2000', '7700\n2000/3900', '--\n--'],
+  ['2300\n600/1200', '4500\n1200/2300', '--\n--', '--\n--'],
+  ['2600\n700/1300', '5200\n1300/2600', '--\n--', '--\n--'],
+  ['2900\n800/1500', '5800\n1500/2900', '--\n--', '--\n--'],
+  ['3200\n800/1600', '6400\n1600/3200', '--\n--', '--\n--'],
+  ['3600\n900/1800', '7100\n1800/3600', '--\n--', '--\n--'],
+];
+
+const List<List<String>> parentTable = [
+  ['--\n--', '--\n700', '--\n1300', '--\n2500'],
+  ['--\n--', '2400\n800', '4800\n1600', '9600\n3200'],
+  ['1500\n500', '2900\n1000', '5800\n2000', '11600\n3900'],
+  ['2000\n700', '3900\n1300', '7700\n2600', '--\n--'],
+  ['2400\n800', '4800\n1600', '9600\n3200', '--\n--'],
+  ['2900\n1000', '5800\n2000', '11600\n3900', '--\n--'],
+  ['3400\n1200', '6800\n2300', '--\n--', '--\n--'],
+  ['3900\n1300', '7700\n2600', '--\n--', '--\n--'],
+  ['4400\n1500', '8700\n2900', '--\n--', '--\n--'],
+  ['4800\n1600', '9600\n3200', '--\n--', '--\n--'],
+  ['5300\n1800', '10600\n3600', '--\n--', '--\n--'],
 ];

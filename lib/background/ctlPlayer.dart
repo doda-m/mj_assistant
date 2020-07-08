@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'ctlPoint.dart';
 
 const FOUR_REACH_PATH = '/four/reach/';
+const FOUR_REACH_BETS = '/four/reachBets';
 const UNREACH = 0;
 const REACH = 1;
 const EAST = 0;
@@ -35,29 +36,35 @@ class ControlPlayer{
   void reach(int index) {
     if (Colors.grey == reachList[index]) {
       _prefs.setInt(FOUR_REACH_PATH + players[index], REACH);
+      _prefs.setInt(FOUR_REACH_BETS, _prefs.getInt(FOUR_REACH_BETS) + 1);
       reachList[index] = Colors.redAccent;
       ctlPoint.reach(index);
     }
     else {
       _prefs.setInt(FOUR_REACH_PATH + players[index], UNREACH);
+      _prefs.setInt(FOUR_REACH_BETS, _prefs.getInt(FOUR_REACH_BETS) - 1);
       reachList[index] = Colors.grey;
       ctlPoint.reachCancel(index);
     }
   }
   
-  int reachReset() {
-    int ret = 0;
+   void reachReset() {
     for (int i = 0; i < 4; i++) {
       if (Colors.redAccent == reachList[i]) {
-        ret++;
         _prefs.setInt(FOUR_REACH_PATH + players[i], UNREACH);
         reachList[i] = Colors.grey;
       }
     }
-    return ret;
   }
 
   Color reachStatus(int index) {
     return reachList[index];
+  }
+
+
+  void tsumo(int playerIndex, int fu, int han) {
+    ctlPoint.tsumo(playerIndex, fu, han, _prefs.getInt(FOUR_REACH_BETS));
+    _prefs.setInt(FOUR_REACH_BETS, 0);
+    reachReset();
   }
 }

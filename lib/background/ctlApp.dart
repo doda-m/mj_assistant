@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mj_assistant/background/ctlPlayer.dart';
 
-//const FOUR_DISPLAY_PATH = '/four/display/';
 const FOUR_PARENT = '/four/parent';
 const FOUR_WIND = '/four/wind';
 const FOUR_STATION = '/four/station';
 const FOUR_PLACE = '/four/place';
+const FOUR_REACH_BETS = '/four/reachBets';
 
 class ControlApplication {
   static bool first = true;
@@ -16,7 +16,6 @@ class ControlApplication {
   static int station = 0;
   static int place = 0;
   static int parent = 0;
-  static int reachSticks = 0;
   ControlPlayer ctlPlayer;
 
   final SharedPreferences _prefs;
@@ -26,25 +25,28 @@ class ControlApplication {
       _prefs.setInt(FOUR_WIND, 0);
       _prefs.setInt(FOUR_STATION, 0);
       _prefs.setInt(FOUR_PLACE, 0);
+      _prefs.setInt(FOUR_PARENT, 0);
+      _prefs.setInt(FOUR_REACH_BETS, 0);
       ctlPlayer.reset();
       first = false;
     }
     wind = _prefs.getInt(FOUR_WIND);
     station = _prefs.getInt(FOUR_STATION);
     place = _prefs.getInt(FOUR_PLACE);
+    parent = _prefs.getInt(FOUR_PARENT);
   }
 
   void reset() {
     _prefs.setInt(FOUR_WIND, 0);
     _prefs.setInt(FOUR_STATION, 0);
     _prefs.setInt(FOUR_PLACE, 0);
+    _prefs.setInt(FOUR_REACH_BETS, 0);
     ctlPlayer.reset();
   }
 
   void incrementPlace () {
     place++;
     _prefs.setInt(FOUR_PLACE, place);
-    reachSticks += ctlPlayer.reachReset();
   }
 
   void decreasePlace () {
@@ -66,7 +68,7 @@ class ControlApplication {
     }
     _prefs.setInt(FOUR_STATION, station);
     _prefs.setInt(FOUR_PLACE, place);
-    reachSticks += ctlPlayer.reachReset();
+    ctlPlayer.reachReset();
   }
 
   String getWind(int index) {
@@ -84,7 +86,7 @@ class ControlApplication {
   }
 
   int getReachSticks() {
-    return reachSticks;
+    return _prefs.getInt(FOUR_REACH_BETS);
   }
 
   int getParent() {
@@ -94,6 +96,13 @@ class ControlApplication {
   void setParent(int index) {
     _prefs.setInt(FOUR_PARENT, index);
     parent = index;
+  }
+
+  void tsumo(int playerIndex, int fu, int han) {
+    ctlPlayer.tsumo(playerIndex, fu, han);
+    if (playerIndex == _prefs.getInt(FOUR_PARENT)) {
+      incrementPlace();
+    }
   }
 
 }
