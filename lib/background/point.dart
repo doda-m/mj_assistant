@@ -1,18 +1,8 @@
-import 'package:flutter/material.dart';
-
 class Tsumo {
   final int child;
   final int parent;
   Tsumo(this.child, this.parent);
 }
-
-const List<String> fuList = [
-  '20 符', '25 符', '30 符', '40 符', '50 符', '60 符',
-  '70 符', '80 符', '90 符', '100 符', '110 符',
-];
-const List<String> pointList = ['満貫', '跳満', '倍満', '三倍満', '役満',];
-
-final List<String> han = ['1翻', '2翻', '3翻', '4翻',];
 
 final List<List<Tsumo>> childTsumoPointTable = [
   [Tsumo(0,0), Tsumo(400, 700), Tsumo(700, 1300), Tsumo(1300, 2600),],
@@ -45,7 +35,7 @@ const List<List<int>> parentTsumoPointTable = [
 ];
 
 const List<List<int>> childRonPointTable = [
-  [0,],
+  [0, 0, 0, 0,],
   [0, 1600, 3200, 6400,],
   [1000, 2000, 3900, 7700,],
   [1300, 2600, 5200,],
@@ -60,7 +50,7 @@ const List<List<int>> childRonPointTable = [
 ];
 
 const List<List<int>> parentRonPointTable = [
-  [0,],
+  [0, 0, 0, 0,],
   [0, 2400, 4800, 9600,],
   [1500, 2900, 5800, 11600,],
   [2000, 3900, 7700,],
@@ -73,6 +63,13 @@ const List<List<int>> parentRonPointTable = [
   [5300, 10600,],
   [12000, 18000, 24000, 36000, 48000],
 ];
+
+const List<String> fuList = [
+  '20 符', '25 符', '30 符', '40 符', '50 符', '60 符',
+  '70 符', '80 符', '90 符', '100 符', '110 符',
+];
+const List<String> han = ['1翻', '2翻', '3翻', '4翻',];
+const List<String> pointList = ['満貫', '跳満', '倍満', '三倍満', '役満',];
 
 const List<List<String>> childTable = [
   ['--\n--', '--\n400/700', '--\n700/1300', '--\n1300/2500'],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mj_assistant/background/ctlApp.dart';
+import 'package:flutter/rendering.dart';
+import 'package:mj_assistant/background/controlApp.dart';
+import 'package:mj_assistant/background/player.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,13 +14,16 @@ class FourPlayerPage extends StatefulWidget {
 }
 
 class _FourPlayerState extends State<FourPlayerPage> {
-  ControlApplication ctlApp;
-  bool decideParent = false;
+  ControlApp controlApp = ControlApp(4);
+  bool inRon = false;
+  int ronPlayer = -1;
+  bool inDiffPoint = false;
+  int diffBasePlayer = -1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:AppBar(
         title: Text('四人麻雀'),
         backgroundColor: Colors.green,
       ),
@@ -26,7 +31,6 @@ class _FourPlayerState extends State<FourPlayerPage> {
           future: SharedPreferences.getInstance(),
           builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
             if (snapshot.hasData) {
-               ctlApp = ControlApplication(snapshot.data);
             }
             else {
               return Center(
@@ -51,7 +55,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
                     children: [
                       Container(
                         height: MediaQuery.of(context).size.height / 3,
-                        width: MediaQuery.of(context).size.width / 4,
+                        width: MediaQuery.of(context).size.width / 3,
                         child: RotatedBox(
                           quarterTurns: 1,
                           child: _playerDisplay(3),
@@ -59,13 +63,13 @@ class _FourPlayerState extends State<FourPlayerPage> {
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height / 3,
-                        width: MediaQuery.of(context).size.width / 2,
+                        width: MediaQuery.of(context).size.width / 3,
                         color: Colors.greenAccent,
                         child: _centerDisplay(),
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height / 3,
-                        width: MediaQuery.of(context).size.width / 4,
+                        width: MediaQuery.of(context).size.width / 3,
                         child: RotatedBox(
                           quarterTurns: 3,
                           child: _playerDisplay(1),
@@ -87,58 +91,44 @@ class _FourPlayerState extends State<FourPlayerPage> {
     );
   }
 
-  Widget _playerDisplay(int _index) {
+  Widget _playerDisplay(int playerID) {
+    final player = controlApp.players[playerID];
     return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
               height: 20,
               child: Center(
                 child: RaisedButton(
-                  color: ctlApp.ctlPlayer.reachStatus(_index),
+                  color: player.isReach ? Colors.redAccent: Colors.grey,
                   child: Text('リーチ',),
                   onPressed: () {
                     setState(() {
-                      ctlApp.ctlPlayer.reach(_index);
+                      controlApp.toggleReach(playerID);
                     });
                   },
                 ),
               ),
             ),
-            const SizedBox(width: 0, height: 2,),
             Container(
               height: 28,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _myWind(_index),
-                    const SizedBox(width: 5, height: 0,),
-                    Center(
-                        child: RaisedButton(
-                          color: Colors.white,
-                          child: Text(ctlApp.ctlPlayer.ctlPoint.readPoint(_index).toString(),
-                            style: TextStyle(
-                                fontSize: 28
-                            ),),
-                          onPressed: () {
-                            null;
-                          },
-                        )
-                    ),
+                  Text('${ControlApp.WIND_NAME[player.wind]}',
+                    style: TextStyle(fontSize: 20,),
+                  ),
+                    const SizedBox(width: 10, height: 0,),
+                    _pointDisplay(playerID, player)
+
                   ],
                 ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RaisedButton(
-                  color: Colors.blueAccent,
-                  child: Text("ロン"),
-                  onPressed: () {
-                    null;
-                  },
-                ),
+                _ronDisplay(playerID),
                 const SizedBox(width: 5, height: 0,),
                 RaisedButton(
                   color: Colors.lightBlueAccent,
@@ -148,9 +138,9 @@ class _FourPlayerState extends State<FourPlayerPage> {
                         this.context,
                         MaterialPageRoute(
                             builder: (context) => PointTablePage(
-                              ctlApp: ctlApp,
-                              playerIndex: _index,
-                              grain: TSUMO,
+                              controlApp: controlApp,
+                              winner: playerID,
+                              isTsumo: TSUMO,
                             )
                         )
                     ).then((value) {
@@ -167,10 +157,79 @@ class _FourPlayerState extends State<FourPlayerPage> {
     );
   }
 
+  Widget _pointDisplay(int _playerID, Player _player) {
+    return Container(
+      width: 140,
+      child: RaisedButton(
+        color: Colors.white,
+        child: inDiffPoint ?
+        Text('${_player.point - controlApp.players[diffBasePlayer].point}', style: TextStyle(fontSize: 28)):
+        Text('${_player.point}', style: TextStyle(fontSize: 28),),
+        onPressed: () {
+          setState(() {
+            if (!inDiffPoint) {
+              diffBasePlayer = _playerID;
+            }
+            else {
+              diffBasePlayer = -1;
+            }
+            inDiffPoint = !inDiffPoint;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _ronDisplay(int _playerID) {
+    if (ronPlayer == _playerID) {
+      return RaisedButton(
+        color: Colors.blueGrey,
+        child: Text("戻る"),
+        onPressed: () {
+          setState(() {
+            inRon = !inRon;
+            ronPlayer = -1;
+          });
+        },
+      );
+    }
+    else{
+      return RaisedButton(
+        color: inRon ? Colors.redAccent:Colors.blueAccent,
+        child: inRon ? Text("放銃"):Text('ロン'),
+        onPressed: () {
+          if (inRon) {
+            Navigator.push(
+                this.context,
+                MaterialPageRoute(
+                    builder: (context) => PointTablePage(
+                      controlApp: controlApp,
+                      winner: ronPlayer,
+                      looser: _playerID,
+                      isTsumo: RON,
+                    )
+                )
+            ).then((value) {
+              setState(() {
+                inRon = !inRon;
+                ronPlayer = -1;
+              });
+            });
+          }
+          else {
+            setState(() {
+              inRon = !inRon;
+              ronPlayer = _playerID;
+            });
+          }
+        },
+      );
+    }
+  }
+
   Widget _controlDisplay() {
     return Container(
       height: MediaQuery.of(context).size.height / 5,
-//      color: Colors.grey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -181,10 +240,23 @@ class _FourPlayerState extends State<FourPlayerPage> {
                 child: Text("次局"),
                 onPressed: () {
                   setState(() {
-                    ctlApp.nextStation();
+                    controlApp.nextRound();
                   });
                 },
               ),
+              RaisedButton(
+                child: Text("流局"),
+                onPressed: () {
+                  setState(() {
+                    controlApp.stackRound();
+                  });
+                },
+              ),
+            ]
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
               RaisedButton(
                 child: Row(
                   children: [
@@ -194,7 +266,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    ctlApp.incrementPlace();
+                    controlApp.incrementStack();
                   });
                 },
               ),
@@ -207,30 +279,20 @@ class _FourPlayerState extends State<FourPlayerPage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    ctlApp.decreasePlace();
+                    controlApp.decresementStack();
                   });
                 },
               ),
               ],
           ),
-          const SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-                child: Text("親決め"),
-                onPressed: () {
-                  setState(() {
-                    decideParent = true;
-                  });
-                  null;
-                },
-              ),
-              RaisedButton(
                 child: Text("リセット"),
                 onPressed: () {
                   setState(() {
-                    ctlApp.reset();
+                    controlApp = ControlApp(controlApp.playerNum);
                   });
                 },
               ),
@@ -238,56 +300,50 @@ class _FourPlayerState extends State<FourPlayerPage> {
           ),
         ],
       ),
-
     );
   }
 
   Widget _centerDisplay() {
+    String reachBetNum = (controlApp.reachBets / 1000).toStringAsFixed(0);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(ctlApp.getStation(),
-        style: TextStyle(
-          fontSize: 25,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('${ControlApp.WIND_NAME[controlApp.wind]}${ControlApp.ROUND_NAME[controlApp.round]}',
+              style: TextStyle(fontSize: 25,),
+            ),
+            Text('${controlApp.stack} 本場',
+              style: TextStyle(fontSize: 20,),
+            ),
+          ],
         ),
-        ),
-        Text(ctlApp.getPlace().toString() + '本場',
-          style: TextStyle(
-            fontSize: 20,
-          ),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('images/app/thousand.png',
+                  width: MediaQuery.of(context).size.width / 6,
+                ),
+                Text(' x $reachBetNum'),
+              ],
+            ),
+            const SizedBox(height: 5,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('images/app/hundred.png',
+                  width: MediaQuery.of(context).size.width / 6,
+                ),
+                Text(' x ${controlApp.stack}'),
+              ],
+            ),
+          ],
         ),
       ],
     );
   }
 
-  Widget _myWind(int index) {
-    if (false == decideParent) {
-      return Text(ctlApp.getWind(index),
-        style: TextStyle(
-          fontSize: 20,
-        ),
-      );
-    }
-    else {
-      return SizedBox(
-        width: 60,
-        child: RaisedButton(
-          color: Colors.redAccent,
-            child: Center (
-              child: Text('親',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),),
-            ),
-          onPressed: () {
-            setState(() {
-              ctlApp.setParent(index);
-              decideParent = false;
-            });
-          },
-        ),
-      );
-    }
-  }
 }
