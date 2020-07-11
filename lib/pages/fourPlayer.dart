@@ -15,10 +15,6 @@ class FourPlayerPage extends StatefulWidget {
 
 class _FourPlayerState extends State<FourPlayerPage> {
   ControlApp controlApp = ControlApp(4);
-  bool inRon = false;
-  int ronPlayer = -1;
-  bool inDiffPoint = false;
-  int diffBasePlayer = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +141,6 @@ class _FourPlayerState extends State<FourPlayerPage> {
                         )
                     ).then((value) {
                       setState(() {
-                        null;
                       });
                     });
                   },
@@ -162,18 +157,15 @@ class _FourPlayerState extends State<FourPlayerPage> {
       width: 140,
       child: RaisedButton(
         color: Colors.white,
-        child: inDiffPoint ?
-        Text('${_player.point - controlApp.players[diffBasePlayer].point}', style: TextStyle(fontSize: 28)):
+        child: controlApp.inDiffPoint ?
+        Text('${_player.point - controlApp.players[controlApp.diffBasePlayer].point}', style: TextStyle(fontSize: 28)):
         Text('${_player.point}', style: TextStyle(fontSize: 28),),
         onPressed: () {
           setState(() {
-            if (!inDiffPoint) {
-              diffBasePlayer = _playerID;
-            }
-            else {
-              diffBasePlayer = -1;
-            }
-            inDiffPoint = !inDiffPoint;
+            if (!controlApp.inDiffPoint)
+              controlApp.diffPointMode(_playerID);
+            else
+              controlApp.diffPointMode(_playerID);
           });
         },
       ),
@@ -181,45 +173,42 @@ class _FourPlayerState extends State<FourPlayerPage> {
   }
 
   Widget _ronDisplay(int _playerID) {
-    if (ronPlayer == _playerID) {
+    if (controlApp.ronPlayer == _playerID) {
       return RaisedButton(
         color: Colors.blueGrey,
         child: Text("戻る"),
         onPressed: () {
           setState(() {
-            inRon = !inRon;
-            ronPlayer = -1;
+            controlApp.toggleInRon(_playerID);
           });
         },
       );
     }
     else{
       return RaisedButton(
-        color: inRon ? Colors.redAccent:Colors.blueAccent,
-        child: inRon ? Text("放銃"):Text('ロン'),
+        color: controlApp.inRon ? Colors.redAccent:Colors.blueAccent,
+        child: controlApp.inRon ? Text("放銃"):Text('ロン'),
         onPressed: () {
-          if (inRon) {
+          if (controlApp.inRon) {
             Navigator.push(
                 this.context,
                 MaterialPageRoute(
                     builder: (context) => PointTablePage(
                       controlApp: controlApp,
-                      winner: ronPlayer,
+                      winner: controlApp.ronPlayer,
                       looser: _playerID,
                       isTsumo: RON,
                     )
                 )
             ).then((value) {
               setState(() {
-                inRon = !inRon;
-                ronPlayer = -1;
+                controlApp.toggleInRon(controlApp.ronPlayer);
               });
             });
           }
           else {
             setState(() {
-              inRon = !inRon;
-              ronPlayer = _playerID;
+              controlApp.toggleInRon(_playerID);
             });
           }
         },

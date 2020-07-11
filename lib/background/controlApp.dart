@@ -11,8 +11,13 @@ class ControlApp {
   int _round;
   int _stack;
   int _reachBets;
+  bool _inRon = false;
+  int _ronPlayer = -1;
+  bool _inDiffPoint = false;
+  int _diffBasePlayer = -1;
   int get playerNum => players.length;
   int get currentParent => players.indexWhere((element) => element.isParent);
+
 
   ControlApp(int playerNum):
         _prevalentWind = 0,
@@ -25,6 +30,10 @@ class ControlApp {
   int get round => _round;
   int get stack => _stack;
   int get reachBets => _reachBets;
+  bool get inRon => _inRon;
+  int get ronPlayer => _ronPlayer;
+  bool get inDiffPoint => _inDiffPoint;
+  int get diffBasePlayer => _diffBasePlayer;
   void incrementStack() => _stack++;
   void decresementStack() => (0 == _stack) ? null:_stack--;
 
@@ -50,6 +59,16 @@ class ControlApp {
     _reachBets += point;
   }
 
+  void toggleInRon(int playerIndex) {
+    _inRon ? _ronPlayer = -1: _ronPlayer = playerIndex;
+    _inRon = !_inRon;
+  }
+
+  void diffPointMode(int basePlayerIndex) {
+    _inDiffPoint ? _diffBasePlayer = -1: _diffBasePlayer = basePlayerIndex;
+    _inDiffPoint = !_inDiffPoint;
+  }
+
   void tsumo({@required int winner, @required int fu, @required int han}) {
     List<int> point = List.filled(playerNum, 0);
     for(int i = 0; i < playerNum; ++i) {
@@ -65,6 +84,8 @@ class ControlApp {
     }
     if (players[winner].isParent)
       _stack++;
+    else
+      nextRound();
   }
 
   void ron({

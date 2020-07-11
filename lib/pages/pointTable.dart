@@ -163,9 +163,18 @@ class PointTablePage extends StatelessWidget {
   }
 
   Widget _generateTable(BuildContext context, int fu) {
-    List _table = childTable;
-    if (true == parentFlag) {
-      _table = parentTable;
+    List _table;
+    if (!parentFlag) {
+      if (isTsumo)
+        _table = childTsumoTable;
+      else
+        _table = childRonTable;
+    }
+    else{
+      if(isTsumo)
+        _table = parentTsumoTable;
+      else
+        _table = parentRonTable;
     }
 
     return Row(
