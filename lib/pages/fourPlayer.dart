@@ -364,6 +364,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
                 child: Text("親決め"),
                 color: (controlApp.inSetStarter) ? Colors.redAccent[100]:null,
                 onPressed: () {
+                  _resetConfirm(1);
                   setState(() {
                     controlApp.toggleSetStarter();
                   });
@@ -372,8 +373,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
               RaisedButton(
                 child: Text("リセット"),
                 onPressed: () {
-                  _resetConfirm();
-
+                  _resetConfirm(0);
                 },
               ),
             ],
@@ -383,7 +383,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
     );
   }
 
-  Future<bool> _resetConfirm() {
+  Future<bool> _resetConfirm(int function) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -394,6 +394,14 @@ class _FourPlayerState extends State<FourPlayerPage> {
             onPressed: () {
               setState(() {
                 controlApp = ControlApp(controlApp.playerNum);
+                switch(function) {
+                  case 1: {
+                    controlApp.toggleSetStarter();
+                    break;
+                  }
+                  default:
+                    break;
+                }
                 Navigator.of(context).pop();
               });
             },
