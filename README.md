@@ -1,16 +1,8 @@
 # mj_assistant
 
 mj_assistant helps you to play hand maid Ma-jan.
+It has score management, score difference, prevalent wind, seat wind 
+and some player status.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+麻雀アシスタント（本アプリ）は手積みで麻雀を遊ぶ際の手助けをします．
+スコア管理や得点差，場，自風，その他プレイヤーの状態を表示します．
