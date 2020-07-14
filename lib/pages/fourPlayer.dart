@@ -18,73 +18,97 @@ class _FourPlayerState extends State<FourPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:AppBar(
-        title: Text('四人麻雀'),
-        backgroundColor: Colors.green,
-      ),
-      body: FutureBuilder(
-          future: SharedPreferences.getInstance(),
-          builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
-            if (snapshot.hasData) {
-            }
-            else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return Column(
-              children: [
-                Container(
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        appBar:AppBar(
+          title: Text('四人麻雀'),
+          backgroundColor: Colors.green,
+        ),
+        body: FutureBuilder(
+            future: SharedPreferences.getInstance(),
+            builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
+              if (snapshot.hasData) {
+              }
+              else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Column(
+                children: [
+                  Container(
+                      height: MediaQuery.of(context).size.height / 6,
+                      color: Colors.greenAccent,
+                      child: RotatedBox(
+                        quarterTurns: 2,
+                        child: _playerDisplay(2),
+                      )
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    color: Colors.greenAccent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: RotatedBox(
+                            quarterTurns: 1,
+                            child: _playerDisplay(3),
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          width: MediaQuery.of(context).size.width / 3,
+                          color: Colors.greenAccent,
+                          child: _centerDisplay(),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: RotatedBox(
+                            quarterTurns: 3,
+                            child: _playerDisplay(1),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
                     height: MediaQuery.of(context).size.height / 6,
                     color: Colors.greenAccent,
-                    child: RotatedBox(
-                      quarterTurns: 2,
-                      child: _playerDisplay(2),
-                    )
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  color: Colors.greenAccent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height / 3,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: RotatedBox(
-                          quarterTurns: 1,
-                          child: _playerDisplay(3),
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 3,
-                        width: MediaQuery.of(context).size.width / 3,
-                        color: Colors.greenAccent,
-                        child: _centerDisplay(),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 3,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: RotatedBox(
-                          quarterTurns: 3,
-                          child: _playerDisplay(1),
-                        ),
-                      ),
-                    ],
+                    child: _playerDisplay(0),
                   ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 6,
-                  color: Colors.greenAccent,
-                  child: _playerDisplay(0),
-                ),
-                _controlDisplay(),
-              ],
-            );
-          }
+                  _controlDisplay(),
+                ],
+              );
+            }
+        ),
       ),
     );
+  }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('選択画面に戻りますか?'),
+        content: Text('途中経過は削除されます．'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text("はい"),
+          ),
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text("キャンセル"),
+          ),
+        ],
+      ),
+    ) ??
+        false;
   }
 
   Widget _playerDisplay(int playerID) {
@@ -120,7 +144,8 @@ class _FourPlayerState extends State<FourPlayerPage> {
                     ),
                   ),
                     const SizedBox(width: 10, height: 0,),
-                    _scoreDisplay(playerID, player)
+                    _scoreDisplay(playerID, player),
+                    const SizedBox(width: 10, height: 0,),
                   ],
                 ),
             ),
@@ -129,7 +154,29 @@ class _FourPlayerState extends State<FourPlayerPage> {
               children: [
                 _ronDisplay(playerID),
                 const SizedBox(width: 5, height: 0,),
-                _tsumoDisplay(playerID)
+                _tsumoDisplay(playerID),
+                const SizedBox(width: 5, height: 0,),
+                Container(
+                  height: 25,
+                  width: 35,
+                  child: RaisedButton(
+                    color: (player.isStarter) ? Colors.redAccent[200]:Colors.white30,
+                    child: Text('${ControlApp.WIND_NAME[controlApp.wind]}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),),
+                    onPressed: () {
+                      if (controlApp.inSetStarter) {
+                        setState(() {
+                          controlApp.setStarter(playerID);
+                        });
+                      }
+                    },
+                  ),
+                ),
+
               ],
             ),
           ],
@@ -171,7 +218,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
     }
     else{
       return RaisedButton(
-        color: controlApp.inRon ? Colors.redAccent:Colors.blueAccent,
+        color: controlApp.inRon ? Colors.redAccent[200]:Colors.blueAccent,
         child: controlApp.inRon ? Text("放銃"):Text('ロン'),
         onPressed: () {
           if (controlApp.inRon) {
@@ -314,11 +361,19 @@ class _FourPlayerState extends State<FourPlayerPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-                child: Text("リセット"),
+                child: Text("親決め"),
+                color: (controlApp.inSetStarter) ? Colors.redAccent[100]:null,
                 onPressed: () {
                   setState(() {
-                    controlApp = ControlApp(controlApp.playerNum);
+                    controlApp.toggleSetStarter();
                   });
+                },
+              ),
+              RaisedButton(
+                child: Text("リセット"),
+                onPressed: () {
+                  _resetConfirm();
+
                 },
               ),
             ],
@@ -326,6 +381,32 @@ class _FourPlayerState extends State<FourPlayerPage> {
         ],
       ),
     );
+  }
+
+  Future<bool> _resetConfirm() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('初期状態にリセットします'),
+        content: Text('途中経過は削除されます'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              setState(() {
+                controlApp = ControlApp(controlApp.playerNum);
+                Navigator.of(context).pop();
+              });
+            },
+            child: Text("はい"),
+          ),
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text("キャンセル"),
+          ),
+        ],
+      ),
+    ) ??
+        false;
   }
 
   Widget _centerDisplay() {

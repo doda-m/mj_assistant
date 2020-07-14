@@ -11,6 +11,8 @@ class ControlApp {
   int _round;
   int _stack;
   int _reachBets;
+  int _starter;
+  bool _inSetStarter = false;
   bool _inDrawn = false;
   bool _inRon = false;
   int _ronPlayer = -1;
@@ -25,6 +27,7 @@ class ControlApp {
         _round = 0,
         _stack = 0,
         _reachBets = 0,
+        _starter = 0,
         players = List.generate(playerNum, (index) => Player(index, playerNum, index, index == 0));
 
   int get wind => _prevalentWind;
@@ -36,6 +39,7 @@ class ControlApp {
   bool get inDiffScore => _inDiffScore;
   int get diffBasePlayer => _diffBasePlayer;
   bool get inDrawn => _inDrawn;
+  bool get inSetStarter => _inSetStarter;
   void incrementStack() => _stack++;
   void decresementStack() => (0 == _stack) ? null:_stack--;
 
@@ -66,6 +70,19 @@ class ControlApp {
     }
   }
 
+  void toggleSetStarter() => _inSetStarter = !_inSetStarter;
+
+  void setStarter(int playerIndex) {
+    for (int i = 0; i < playerIndex; i++) {
+      players[i].setStarter((players[i].wind + _starter + playerNum - playerIndex) % playerNum);
+    }
+    for (int i = playerIndex; i < playerNum; i++) {
+      players[i].setStarter((players[i].wind + _starter + playerNum - playerIndex) % playerNum);
+    }
+    _starter = playerIndex;
+    _inSetStarter = false;
+  }
+
   void toggleReach(int playerIndex) {
     final point = players[playerIndex].toggleReach();
     _reachBets += point;
@@ -81,9 +98,7 @@ class ControlApp {
     _inDiffScore = !_inDiffScore;
   }
 
-  void toggleDrawn() {
-    _inDrawn = !_inDrawn;
-  }
+  void toggleDrawn() => _inDrawn = !_inDrawn;
 
   void drawn() {
     List<int> waitingHandPlayer = [];
@@ -130,6 +145,7 @@ class ControlApp {
     }
     for (int i = 0; i < playerNum; i++) {
       players[i].cancelWaitingHand();
+      players[i].cancelReach();
     }
 
     int temp = _stack;

@@ -16,7 +16,7 @@ final List<List<Tsumo>> childTsumoPointTable = [
   [Tsumo(800, 1500), Tsumo(1500, 2900),],
   [Tsumo(800, 1600), Tsumo(1600, 3200),],
   [Tsumo(900, 1800), Tsumo(1800, 3600),],
-  [Tsumo(2000, 4000), Tsumo(3000, 4000), Tsumo(4000, 8000), Tsumo(6000, 12000), Tsumo(8000, 16000),],
+  [Tsumo(2000, 4000), Tsumo(3000, 6000), Tsumo(4000, 8000), Tsumo(6000, 12000), Tsumo(8000, 16000),],
 ];
 
 const List<List<int>> parentTsumoPointTable = [

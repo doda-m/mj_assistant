@@ -8,6 +8,7 @@ class Player {
   final int _playerNum;
   int _wind;
   int _score;
+  bool _isStarter;
   bool _isReach;
   bool _isParent;
   bool _isWaitingHand;
@@ -19,10 +20,12 @@ class Player {
         _score = 25000,
         _isReach = false,
         _isParent = parent,
+        _isStarter = parent,
         _isWaitingHand = false;
 
   int get score => _score;
   int get wind => _wind;
+  bool get isStarter => _isStarter;
   bool get isReach => _isReach;
   bool get isParent => _isParent;
   bool get isWaitingHand => _isWaitingHand;
@@ -44,6 +47,18 @@ class Player {
       _isParent = true;
     else
       _isParent = false;
+  }
+
+  void setStarter(int wind) {
+    if (EAST == wind) {
+      _isStarter = true;
+      _isParent = true;
+    }
+    else {
+      _isStarter = false;
+      _isParent = false;
+    }
+    _wind = wind;
   }
 
   int toggleReach() {

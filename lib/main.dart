@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'pages/fourPlayer.dart';
 import 'pages/home.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MyApp());
+  });
+//  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
