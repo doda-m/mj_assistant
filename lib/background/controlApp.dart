@@ -11,9 +11,10 @@ class ControlApp {
   int _round;
   int _stack;
   int _reachBets;
+  bool _inDrawn = false;
   bool _inRon = false;
   int _ronPlayer = -1;
-  bool _inDiffPoint = false;
+  bool _inDiffScore = false;
   int _diffBasePlayer = -1;
   int get playerNum => players.length;
   int get currentParent => players.indexWhere((element) => element.isParent);
@@ -32,8 +33,9 @@ class ControlApp {
   int get reachBets => _reachBets;
   bool get inRon => _inRon;
   int get ronPlayer => _ronPlayer;
-  bool get inDiffPoint => _inDiffPoint;
+  bool get inDiffScore => _inDiffScore;
   int get diffBasePlayer => _diffBasePlayer;
+  bool get inDrawn => _inDrawn;
   void incrementStack() => _stack++;
   void decresementStack() => (0 == _stack) ? null:_stack--;
 
@@ -44,6 +46,16 @@ class ControlApp {
     _stack = 0;
     for (Player player in players) {
       player.nextRound((player.wind + playerNum - 1) % playerNum);
+    }
+  }
+
+  void backRound() {
+    _round = (_round - 1) % playerNum;
+    if (3 == _round)
+      _prevalentWind = (_prevalentWind - 1) % playerNum;
+    _stack = 0;
+    for (Player player in players) {
+      player.nextRound((player.wind + 1) % playerNum);
     }
   }
 
@@ -64,9 +76,69 @@ class ControlApp {
     _inRon = !_inRon;
   }
 
-  void diffPointMode(int basePlayerIndex) {
-    _inDiffPoint ? _diffBasePlayer = -1: _diffBasePlayer = basePlayerIndex;
-    _inDiffPoint = !_inDiffPoint;
+  void diffScoreMode(int basePlayerIndex) {
+    _inDiffScore ? _diffBasePlayer = -1: _diffBasePlayer = basePlayerIndex;
+    _inDiffScore = !_inDiffScore;
+  }
+
+  void toggleDrawn() {
+    _inDrawn = !_inDrawn;
+  }
+
+  void drawn() {
+    List<int> waitingHandPlayer = [];
+    List<int> unWaitingHandPlayer = [];
+    for (int i = 0; i < playerNum; i++) {
+      if (players[i].isWaitingHand)
+        waitingHandPlayer.add(i);
+      else
+        unWaitingHandPlayer.add(i);
+    }
+
+    switch(waitingHandPlayer.length) {
+      case 0:
+        break;
+      case 1: {
+          waitingHandPlayer.forEach((element) {
+            players[element].addPoint(3000);
+          });
+          unWaitingHandPlayer.forEach((element) {
+            players[element].addPoint(-1000);
+          });
+          break;
+        }
+      case 2: {
+        waitingHandPlayer.forEach((element) {
+          players[element].addPoint(1500);
+        });
+        unWaitingHandPlayer.forEach((element) {
+          players[element].addPoint(-1500);
+        });
+        break;
+      }
+      case 3: {
+        waitingHandPlayer.forEach((element) {
+          players[element].addPoint(1000);
+        });
+        unWaitingHandPlayer.forEach((element) {
+          players[element].addPoint(-3000);
+        });
+        break;
+      }
+      case 4:
+        break;
+    }
+    for (int i = 0; i < playerNum; i++) {
+      players[i].cancelWaitingHand();
+    }
+
+    int temp = _stack;
+    unWaitingHandPlayer.forEach((element) {
+      if (players[element].isParent)
+        nextRound();
+    });
+    _stack = temp + 1;
+    _inDrawn = false;
   }
 
   void tsumo({@required int winner, @required int fu, @required int han}) {

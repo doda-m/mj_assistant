@@ -113,11 +113,14 @@ class _FourPlayerState extends State<FourPlayerPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                   Text('${ControlApp.WIND_NAME[player.wind]}',
-                    style: TextStyle(fontSize: 20,),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: (player.isParent)? Colors.red:Colors.black,
+                    ),
                   ),
                     const SizedBox(width: 10, height: 0,),
-                    _pointDisplay(playerID, player)
-
+                    _scoreDisplay(playerID, player)
                   ],
                 ),
             ),
@@ -126,25 +129,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
               children: [
                 _ronDisplay(playerID),
                 const SizedBox(width: 5, height: 0,),
-                RaisedButton(
-                  color: Colors.lightBlueAccent,
-                  child: Text("ツモ"),
-                  onPressed: () {
-                    Navigator.push(
-                        this.context,
-                        MaterialPageRoute(
-                            builder: (context) => PointTablePage(
-                              controlApp: controlApp,
-                              winner: playerID,
-                              isTsumo: TSUMO,
-                            )
-                        )
-                    ).then((value) {
-                      setState(() {
-                      });
-                    });
-                  },
-                ),
+                _tsumoDisplay(playerID)
               ],
             ),
           ],
@@ -152,20 +137,20 @@ class _FourPlayerState extends State<FourPlayerPage> {
     );
   }
 
-  Widget _pointDisplay(int _playerID, Player _player) {
+  Widget _scoreDisplay(int _playerID, Player _player) {
     return Container(
       width: 140,
       child: RaisedButton(
         color: Colors.white,
-        child: controlApp.inDiffPoint ?
-        Text('${_player.point - controlApp.players[controlApp.diffBasePlayer].point}', style: TextStyle(fontSize: 28)):
-        Text('${_player.point}', style: TextStyle(fontSize: 28),),
+        child: controlApp.inDiffScore ?
+        Text('${_player.score - controlApp.players[controlApp.diffBasePlayer].score}', style: TextStyle(fontSize: 28)):
+        Text('${_player.score}', style: TextStyle(fontSize: 28),),
         onPressed: () {
           setState(() {
-            if (!controlApp.inDiffPoint)
-              controlApp.diffPointMode(_playerID);
+            if (!controlApp.inDiffScore)
+              controlApp.diffScoreMode(_playerID);
             else
-              controlApp.diffPointMode(_playerID);
+              controlApp.diffScoreMode(_playerID);
           });
         },
       ),
@@ -216,6 +201,41 @@ class _FourPlayerState extends State<FourPlayerPage> {
     }
   }
 
+  Widget _tsumoDisplay(int _playerID) {
+    if (controlApp.inDrawn) {
+      return RaisedButton(
+        color: (controlApp.players[_playerID].isWaitingHand) ? Colors.redAccent[100]:Colors.grey,
+        child: (controlApp.players[_playerID].isWaitingHand) ? Text('聴牌'):Text('ノーテン'),
+        onPressed: () {
+          setState(() {
+            controlApp.players[_playerID].toggleWaitingHand();
+          });
+        },
+      );
+    }
+    else {
+      return RaisedButton(
+        color: Colors.lightBlueAccent,
+        child: Text("ツモ"),
+        onPressed: () {
+          Navigator.push(
+              this.context,
+              MaterialPageRoute(
+                  builder: (context) => PointTablePage(
+                    controlApp: controlApp,
+                    winner: _playerID,
+                    isTsumo: TSUMO,
+                  )
+              )
+          ).then((value) {
+            setState(() {
+            });
+          });
+        },
+      );
+    }
+  }
+
   Widget _controlDisplay() {
     return Container(
       height: MediaQuery.of(context).size.height / 5,
@@ -234,10 +254,26 @@ class _FourPlayerState extends State<FourPlayerPage> {
                 },
               ),
               RaisedButton(
-                child: Text("流局"),
+                color: (controlApp.inDrawn) ? Colors.redAccent[100]:null,
+                child: (controlApp.inDrawn) ? Text('確定'):Text("流局"),
+                onPressed: () {
+                  if (controlApp.inDrawn) {
+                    setState(() {
+                      controlApp.drawn();
+                    });
+                  }
+                  else {
+                    setState(() {
+                      controlApp.toggleDrawn();
+                    });
+                  }
+                },
+              ),
+              RaisedButton(
+                child: Text("前局"),
                 onPressed: () {
                   setState(() {
-                    controlApp.stackRound();
+                    controlApp.backRound();
                   });
                 },
               ),

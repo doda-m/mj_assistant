@@ -7,22 +7,25 @@ class Player {
   final int _playerID;
   final int _playerNum;
   int _wind;
-  int _point;
+  int _score;
   bool _isReach;
   bool _isParent;
+  bool _isWaitingHand;
 
   Player(int playerID, int playerNum, int wind, bool parent):
         _playerID = playerID,
         _playerNum = playerNum,
         _wind = wind,
-        _point = 25000,
+        _score = 25000,
         _isReach = false,
-        _isParent = parent;
+        _isParent = parent,
+        _isWaitingHand = false;
 
-  int get point => _point;
+  int get score => _score;
   int get wind => _wind;
   bool get isReach => _isReach;
   bool get isParent => _isParent;
+  bool get isWaitingHand => _isWaitingHand;
 //  set wind(int newWind) => _wind = newWind;
 
   void nextRound(int newWind) {
@@ -34,15 +37,32 @@ class Player {
       _isParent = false;
   }
 
+  void backRound(int preWind) {
+    _wind = preWind;
+    _isReach = false;
+    if (EAST == preWind)
+      _isParent = true;
+    else
+      _isParent = false;
+  }
+
   int toggleReach() {
     _isReach = !_isReach;
     final cost = _isReach ? 1000:-1000;
-    _point -= cost;
+    _score -= cost;
     return cost;
   }
 
   void cancelReach() {
     _isReach = false;
+  }
+
+  void toggleWaitingHand() {
+    _isWaitingHand = !_isWaitingHand;
+  }
+
+  void cancelWaitingHand() {
+    _isWaitingHand = false;
   }
 
   int tsumo({@required int winner, @required int fu, @required int han}) {
@@ -77,7 +97,7 @@ class Player {
   }
 
   void addPoint(int addPoint) {
-    _point += addPoint;
+    _score += addPoint;
   }
 
 }
