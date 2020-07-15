@@ -336,7 +336,10 @@ class PointTablePage extends StatelessWidget {
               controlApp.tsumo(winner: winner, fu: fu, han: han);
             else
               controlApp.ron(winner: winner, looser: looser, fu: fu, han: han);
-            Navigator.popUntil(context, ModalRoute.withName('/fourPlayer'));
+            if(4 == controlApp.playerNum)
+              Navigator.popUntil(context, ModalRoute.withName('/fourPlayer'));
+            else
+              Navigator.popUntil(context, ModalRoute.withName('/threePlayer'));
           },
         )
       ],

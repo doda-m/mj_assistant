@@ -87,7 +87,7 @@ class Player {
     int parentPay;
     _isReach = false;
 
-    if (0 ==  (winner - _playerID + _wind) % _playerNum) {
+    if (EAST ==  (winner - _playerID + _wind) % _playerNum) {
       childPay = parentTsumoPointTable[fu][han];
     }
     else {
@@ -97,10 +97,10 @@ class Player {
 
     if (_playerID == winner) {
       if (_isParent) {
-        return childPay * 3;
+        return childPay * (_playerNum - 1);
       }
       else {
-        return (childPay * 2) + parentPay;
+        return (childPay * (_playerNum - 2)) + parentPay;
       }
     }
     else {

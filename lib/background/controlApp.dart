@@ -154,7 +154,7 @@ class ControlApp {
       if (i != winner)
         point[i] -= (100 * _stack);
     }
-    point[winner] += _reachBets + (300 * _stack);
+    point[winner] += _reachBets + (100 * (playerNum - 1) * _stack);
     _reachBets = 0;
 
     for (int i = 0; i < playerNum; i++) {
@@ -168,16 +168,16 @@ class ControlApp {
 
   void ron({
     @required int winner, @required int looser, @required int fu, @required int han}) {
-    int point;
-    int stack = 0;
+    int point = 0;
+
+    point += (300 * _stack);
     if (players[winner].isParent) {
       point = parentRonPointTable[fu][han];
-      stack = 1;
+      _stack++;
     }
     else
       point = childRonPointTable[fu][han];
 
-    point += (300 * _stack);
     players[looser].addPoint(-point);
 
     point += _reachBets;
@@ -187,6 +187,5 @@ class ControlApp {
     for (int i = 0; i < playerNum; i++) {
       players[i].cancelReach();
     }
-    _stack += stack;
   }
 }
