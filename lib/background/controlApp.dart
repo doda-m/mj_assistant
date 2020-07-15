@@ -7,6 +7,7 @@ class ControlApp {
   static const List<String> WIND_NAME = ['東', '南', '西', '北'];
   static const List<String> ROUND_NAME = ['一局', '二局', '三局', '四局'];
   final List<Player> players;
+  int _defaultBets;
   int _prevalentWind;
   int _round;
   int _stack;
@@ -23,6 +24,7 @@ class ControlApp {
 
 
   ControlApp(int playerNum):
+        _defaultBets = (4 == playerNum) ? 3000:2000,
         _prevalentWind = 0,
         _round = 0,
         _stack = 0,
@@ -55,7 +57,7 @@ class ControlApp {
 
   void backRound() {
     _round = (_round - 1) % playerNum;
-    if (3 == _round)
+    if ((playerNum - 1) == _round)
       _prevalentWind = (_prevalentWind - 1) % playerNum;
     _stack = 0;
     for (Player player in players) {
@@ -81,6 +83,11 @@ class ControlApp {
     }
     _starter = playerIndex;
     _inSetStarter = false;
+  }
+
+  void preSetStarter() {
+    toggleSetStarter();
+    players[_starter].toggleStarter();
   }
 
   void toggleReach(int playerIndex) {
@@ -109,50 +116,33 @@ class ControlApp {
       else
         unWaitingHandPlayer.add(i);
     }
-
-    switch(waitingHandPlayer.length) {
-      case 0:
-        break;
-      case 1: {
-          waitingHandPlayer.forEach((element) {
-            players[element].addPoint(3000);
-          });
-          unWaitingHandPlayer.forEach((element) {
-            players[element].addPoint(-1000);
-          });
-          break;
-        }
-      case 2: {
-        waitingHandPlayer.forEach((element) {
-          players[element].addPoint(1500);
-        });
-        unWaitingHandPlayer.forEach((element) {
-          players[element].addPoint(-1500);
-        });
-        break;
-      }
-      case 3: {
-        waitingHandPlayer.forEach((element) {
-          players[element].addPoint(1000);
-        });
-        unWaitingHandPlayer.forEach((element) {
-          players[element].addPoint(-3000);
-        });
-        break;
-      }
-      case 4:
-        break;
+    int pay, get;
+    if (0 == unWaitingHandPlayer.length || playerNum == unWaitingHandPlayer.length)
+      pay = get = 0;
+    else {
+      pay = _defaultBets ~/ unWaitingHandPlayer.length;
+      get = _defaultBets ~/ waitingHandPlayer.length;
     }
+
+    unWaitingHandPlayer.forEach((element) {
+      players[element].addPoint(-pay);
+    });
+    waitingHandPlayer.forEach((element) {
+      players[element].addPoint(get);
+    });
+
     for (int i = 0; i < playerNum; i++) {
       players[i].cancelWaitingHand();
       players[i].cancelReach();
     }
 
     int temp = _stack;
-    unWaitingHandPlayer.forEach((element) {
-      if (players[element].isParent)
+    for(int i in unWaitingHandPlayer) {
+      if (players[i].isParent) {
         nextRound();
-    });
+        break;
+      }
+    }
     _stack = temp + 1;
     _inDrawn = false;
   }

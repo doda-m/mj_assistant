@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'pages/fourPlayer.dart';
+import 'pages/threePlayer.dart';
 import 'pages/home.dart';
 
 void main() {
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/home': (BuildContext context) => HomePage(),
         '/fourPlayer': (BuildContext context) => FourPlayerPage(),
+        '/threePlayer': (BuildContext context) => ThreePlayerPage(),
         '/PointTable': (BuildContext context) => PointTablePage(),
       },
     );

@@ -17,7 +17,7 @@ class Player {
         _playerID = playerID,
         _playerNum = playerNum,
         _wind = wind,
-        _score = 25000,
+        _score = (4 == playerNum) ? 25000:35000,
         _isReach = false,
         _isParent = parent,
         _isStarter = parent,
@@ -60,6 +60,8 @@ class Player {
     }
     _wind = wind;
   }
+
+  void toggleStarter() => _isStarter = !_isStarter;
 
   int toggleReach() {
     _isReach = !_isReach;

@@ -8,13 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 const bool TSUMO = true;
 const bool RON = false;
 
-class FourPlayerPage extends StatefulWidget {
+class ThreePlayerPage extends StatefulWidget {
   @override
-  _FourPlayerState createState() => _FourPlayerState();
+  _ThreePlayerState createState() => _ThreePlayerState();
 }
 
-class _FourPlayerState extends State<FourPlayerPage> {
-  ControlApp controlApp = ControlApp(4);
+class _ThreePlayerState extends State<ThreePlayerPage> {
+  ControlApp controlApp = ControlApp(3);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
       onWillPop: _resetConfirm,
       child: Scaffold(
         appBar:AppBar(
-          title: Text('四人麻雀'),
+          title: Text('三人麻雀'),
           backgroundColor: Colors.green,
         ),
         body: FutureBuilder(
@@ -56,7 +56,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
                           width: MediaQuery.of(context).size.width / 3,
                           child: RotatedBox(
                             quarterTurns: 1,
-                            child: _playerDisplay(3),
+//                            child: _playerDisplay(3),
                           ),
                         ),
                         Container(
@@ -197,7 +197,7 @@ class _FourPlayerState extends State<FourPlayerPage> {
     }
     else{
       return RaisedButton(
-        color: controlApp.inRon ? Colors.redAccent[100]:Colors.blueAccent,
+        color: controlApp.inRon ? Colors.redAccent[200]:Colors.blueAccent,
         child: controlApp.inRon ? Text("放銃"):Text('ロン'),
         onPressed: () {
           if (controlApp.inRon) {

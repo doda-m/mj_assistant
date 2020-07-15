@@ -31,15 +31,14 @@ class HomePage extends StatelessWidget {
                 width: 300,
                 height: 70,
                 child: RaisedButton(
-                  child: Text('三人麻雀/未実装',
+                  child: Text('三人麻雀',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
                     ),),
                   color: Colors.lightBlue,
                   onPressed: () {
-                    null;
-//                    Navigator.of(context).pushNamed('threePlayer');
+                    Navigator.of(context).pushNamed('/threePlayer');
                   },
                 ),
               ),
