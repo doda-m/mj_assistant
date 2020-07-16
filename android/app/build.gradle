@@ -41,8 +41,8 @@ android {
         applicationId "dodare.develop.mj_assistant"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 3
+        versionName '1.1'
     }
 
     buildTypes {
