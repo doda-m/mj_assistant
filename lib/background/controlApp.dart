@@ -171,10 +171,8 @@ class ControlApp {
     int point = 0;
 
     point += (300 * _stack);
-    if (players[winner].isParent) {
+    if (players[winner].isParent)
       point = parentRonPointTable[fu][han];
-      _stack++;
-    }
     else
       point = childRonPointTable[fu][han];
 

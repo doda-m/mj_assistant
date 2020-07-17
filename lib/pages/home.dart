@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mj_assistant/pages/playDisplay.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -22,9 +23,14 @@ class HomePage extends StatelessWidget {
                         fontSize: 30,
                       ),),
                     color: Colors.lightGreen,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/fourPlayer');
-                    }
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PlayDisplayPage(
+                              isFourVer: true,
+                            )
+                        )
+                    ),
                   )
               ),
               SizedBox(
@@ -37,9 +43,14 @@ class HomePage extends StatelessWidget {
                       fontSize: 30,
                     ),),
                   color: Colors.lightBlue,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/threePlayer');
-                  },
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PlayDisplayPage(
+                            isFourVer: false,
+                          )
+                      )
+                  ),
                 ),
               ),
             ],

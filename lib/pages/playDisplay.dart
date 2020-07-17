@@ -2,27 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 import 'package:mj_assistant/background/player.dart';
+import 'package:mj_assistant/pages/alert.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const bool TSUMO = true;
 const bool RON = false;
 
-class ThreePlayerPage extends StatefulWidget {
+class PlayDisplayPage extends StatefulWidget {
+  final bool isFourVer;
+  PlayDisplayPage({@required this.isFourVer});
   @override
-  _ThreePlayerState createState() => _ThreePlayerState();
+  _PlayDisplayState createState() => _PlayDisplayState(isFourVer);
 }
 
-class _ThreePlayerState extends State<ThreePlayerPage> {
-  ControlApp controlApp = ControlApp(3);
+class _PlayDisplayState extends State<PlayDisplayPage> {
+  ControlApp controlApp;
+  _PlayDisplayState(bool isFourVer):
+        controlApp = (isFourVer)? ControlApp(4):ControlApp(3);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _resetConfirm,
+      onWillPop: _showConfirmAlert,
       child: Scaffold(
         appBar:AppBar(
-          title: Text('三人麻雀'),
+          title: Text('四人麻雀'),
           backgroundColor: Colors.green,
         ),
         body: FutureBuilder(
@@ -56,7 +61,7 @@ class _ThreePlayerState extends State<ThreePlayerPage> {
                           width: MediaQuery.of(context).size.width / 3,
                           child: RotatedBox(
                             quarterTurns: 1,
-//                            child: _playerDisplay(3),
+                            child: (4 == controlApp.playerNum)? _playerDisplay(3):null,
                           ),
                         ),
                         Container(
@@ -143,7 +148,7 @@ class _ThreePlayerState extends State<ThreePlayerPage> {
                     child: Text('${ControlApp.WIND_NAME[controlApp.wind]}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         color: Colors.white,
                       ),),
                     onPressed: () {
@@ -197,7 +202,7 @@ class _ThreePlayerState extends State<ThreePlayerPage> {
     }
     else{
       return RaisedButton(
-        color: controlApp.inRon ? Colors.redAccent[200]:Colors.blueAccent,
+        color: controlApp.inRon ? Colors.redAccent[100]:Colors.blueAccent,
         child: controlApp.inRon ? Text("放銃"):Text('ロン'),
         onPressed: () {
           if (controlApp.inRon) {
@@ -214,6 +219,7 @@ class _ThreePlayerState extends State<ThreePlayerPage> {
             ).then((value) {
               setState(() {
                 controlApp.toggleInRon(controlApp.ronPlayer);
+                _showConfirmAlert(func: 2);
               });
             });
           }
@@ -342,13 +348,13 @@ class _ThreePlayerState extends State<ThreePlayerPage> {
                 child: Text("親決め"),
                 color: (controlApp.inSetStarter) ? Colors.redAccent[100]:null,
                 onPressed: () {
-                  _resetConfirm(func: 1);
+                  _showConfirmAlert(func: 1);
                 },
               ),
               RaisedButton(
                 child: Text("リセット"),
                 onPressed: () {
-                  _resetConfirm();
+                  _showConfirmAlert();
                 },
               ),
             ],
@@ -358,45 +364,38 @@ class _ThreePlayerState extends State<ThreePlayerPage> {
     );
   }
 
-  Future<bool> _resetConfirm({int func}) {
-    String _content, _title;
-    switch (func) {
-      case 1: {
-        _title = '状態がリセットされます';
-        _content = 'その後，起家を選択してください．';
-        break;
-      }
-      default: {
-        _title = '状態をリセットします';
-        _content = '途中経過は削除されます.';
-      }
-    }
+  Future<bool> _showConfirmAlert({int func}) {
+    print(func);
+    func = (null == func)? 0:func;
+    print(func);
+    AlertParameter alertPara = AlertParameter(func);
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(_title),
-        content: Text(_content),
+        title: Text(alertPara.title),
+        content: Text(alertPara.content),
         actions: <Widget>[
           FlatButton(
             onPressed: () {
               setState(() {
-                controlApp = ControlApp(controlApp.playerNum);
-                switch(func) {
-                  case 1: {
-                    controlApp.preSetStarter();
-                    break;
-                  }
-                  default:
-                    break;
-                }
+                controlApp = alertPara.resultInOK(controlApp);
                 Navigator.of(context).pop(true);
               });
             },
-            child: Text("はい", style: TextStyle(color: Colors.red),),
+            child: Text(alertPara.yesButton, style: TextStyle(color: Colors.red),),
           ),
+          (2 == func)? FlatButton(
+            onPressed: () {
+              setState(() {
+                controlApp.incrementStack();
+                Navigator.of(context).pop(true);
+              });
+            },
+            child: Text(alertPara.extraButton, style: TextStyle(color: Colors.redAccent),),
+          ): null,
           FlatButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text("キャンセル", style: TextStyle(color: Colors.black),),
+            child: Text(alertPara.noButton, style: TextStyle(color: Colors.black),),
           ),
         ],
       ),

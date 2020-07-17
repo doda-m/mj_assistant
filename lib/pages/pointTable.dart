@@ -313,7 +313,7 @@ class PointTablePage extends StatelessWidget {
                   builder: (BuildContext context) => _confirmAlert(context, 10, 0),),
               ),
               FlatButton(
-                child: Text(_table[10][1], textAlign: TextAlign.center),
+                child: Text(_table[10][1].toString(), textAlign: TextAlign.center),
                 onPressed: () => showDialog( context: context,
                   builder: (BuildContext context) => _confirmAlert(context, 10, 1),),
               ),
@@ -336,10 +336,8 @@ class PointTablePage extends StatelessWidget {
               controlApp.tsumo(winner: winner, fu: fu, han: han);
             else
               controlApp.ron(winner: winner, looser: looser, fu: fu, han: han);
-            if(4 == controlApp.playerNum)
-              Navigator.popUntil(context, ModalRoute.withName('/fourPlayer'));
-            else
-              Navigator.popUntil(context, ModalRoute.withName('/threePlayer'));
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
         )
       ],
