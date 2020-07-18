@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/point.dart';
 import 'player.dart';
+import 'rule.dart';
 
 class ControlApp {
   static const List<String> WIND_NAME = ['東', '南', '西', '北'];
   static const List<String> ROUND_NAME = ['一局', '二局', '三局', '四局'];
   final List<Player> players;
+  final SettingRule rule;
   int _defaultBets;
   int _prevalentWind;
   int _round;
@@ -30,7 +32,9 @@ class ControlApp {
         _stack = 0,
         _reachBets = 0,
         _starter = 0,
+        rule = SettingRule(playerNum),
         players = List.generate(playerNum, (index) => Player(index, playerNum, index, index == 0));
+
 
   int get wind => _prevalentWind;
   int get round => _round;

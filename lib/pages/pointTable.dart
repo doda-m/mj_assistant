@@ -131,7 +131,9 @@ class PointTablePage extends StatelessWidget {
             children: [
               const Text('25符', textAlign: TextAlign.center),
               const Text('--', textAlign: TextAlign.center),
-              FlatButton(
+              (isTsumo)?
+              const Text('--', textAlign: TextAlign.center)
+              :FlatButton(
                 child: Text(_table[1][1], textAlign: TextAlign.center),
                 onPressed: () => showDialog( context: context,
                   builder: (BuildContext context) => _confirmAlert(context, 1, 1),),
@@ -307,6 +309,8 @@ class PointTablePage extends StatelessWidget {
         TableRow(
             children: [
               const Text('110符', textAlign: TextAlign.center),
+              (isTsumo)?
+              const Text('--', textAlign: TextAlign.center):
               FlatButton(
                 child: Text(_table[10][0], textAlign: TextAlign.center),
                 onPressed: () => showDialog( context: context,
@@ -327,7 +331,9 @@ class PointTablePage extends StatelessWidget {
 
   Widget _confirmAlert(BuildContext context, int fu, int han) {
     return AlertDialog(
-      title: (fu > 10)? Text('${pointList[han]} でよろしいですか?'): Text('${_table[fu][han]} でよろしいですか?'),
+      title: (fu > 10)?
+      Text('${pointList[han]} でよろしいですか?')
+      :Text('${_table[fu][han].replaceAll('\n', ' ')} でよろしいですか?'),
       actions: [
         FlatButton(
           child: Text('OK', style: TextStyle(color: Colors.redAccent,),),
