@@ -1,6 +1,5 @@
-import 'controlApp.dart';
-
 class SettingRule {
+  bool _isChanged;
   int _startingPoint;
   bool _isNoLossTsumo;
   bool _isFixedPoint;
@@ -11,6 +10,7 @@ class SettingRule {
     _isFixedPoint = false;
   }
 
+  bool get isChanged => _isChanged;
   set startingPoint(int point) => _startingPoint = point;
   void toggleLossTsumo() => _isNoLossTsumo = !_isNoLossTsumo;
   void toggleFixedPoint() => _isFixedPoint = !_isFixedPoint;
