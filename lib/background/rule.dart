@@ -11,6 +11,8 @@ class SettingRule {
   }
 
   bool get isChanged => _isChanged;
+  bool get isNoLossTsumo => _isNoLossTsumo;
+  bool get isFixedPoint => _isFixedPoint;
   set startingPoint(int point) => _startingPoint = point;
   void toggleLossTsumo() => _isNoLossTsumo = !_isNoLossTsumo;
   void toggleFixedPoint() => _isFixedPoint = !_isFixedPoint;
