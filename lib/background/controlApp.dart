@@ -172,9 +172,9 @@ class ControlApp {
 
     point += (300 * _stack);
     if (players[winner].isParent)
-      point = parentRonPointTable[fu][han];
+      point += parentRonPointTable[fu][han];
     else
-      point = childRonPointTable[fu][han];
+      point += childRonPointTable[fu][han];
 
     players[looser].addPoint(-point);
 
