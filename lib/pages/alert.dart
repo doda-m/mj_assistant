@@ -13,19 +13,23 @@ class AlertParameter {
     '',
   ];
 
+  static const List<String> ACTION_LIST = [
+    'はい',
+    '起家を選択',
+    '次局へ',
+  ];
+
   final String _title;
   final String _content;
   final String _yesButton;
-  final String _noButton;
+  final String _noButton = 'キャンセル';
   final String _extraButton = '連荘';
   final int _alertType;
 
-  AlertParameter(int func):
-        _yesButton = (0 == func)? 'はい':'次局へ',
-        _noButton = 'キャンセル',
-        _alertType = func,
-        _title = TITLE_LIST[func],
-        _content = CONTENT_LIST[func];
+  AlertParameter(this._alertType):
+        _yesButton = ACTION_LIST[_alertType],
+        _title = TITLE_LIST[_alertType],
+        _content = CONTENT_LIST[_alertType];
 
   String get yesButton => _yesButton;
   String get noButton => _noButton;

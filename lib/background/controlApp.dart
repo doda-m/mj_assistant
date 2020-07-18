@@ -67,9 +67,7 @@ class ControlApp {
 
   void stackRound() {
     _stack++;
-    for (Player player in players) {
-      player.nextRound(player.wind);
-    }
+    players.forEach((player) => player.nextRound(player.wind));
   }
 
   void toggleSetStarter() => _inSetStarter = !_inSetStarter;
@@ -182,8 +180,6 @@ class ControlApp {
     _reachBets = 0;
     players[winner].addPoint(point);
 
-    for (int i = 0; i < playerNum; i++) {
-      players[i].cancelReach();
-    }
+    players.forEach((player) => player.cancelReach());
   }
 }

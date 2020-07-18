@@ -107,11 +107,9 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                 child: RaisedButton(
                   color: player.isReach ? Colors.redAccent: Colors.grey,
                   child: Text('リーチ',),
-                  onPressed: () {
-                    setState(() {
-                      controlApp.toggleReach(playerID);
-                    });
-                  },
+                  onPressed: () => setState(() {
+                    controlApp.toggleReach(playerID);
+                  }),
                 ),
               ),
             ),
@@ -160,7 +158,6 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                     },
                   ),
                 ),
-
               ],
             ),
           ],
@@ -193,11 +190,9 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       return RaisedButton(
         color: Colors.blueGrey,
         child: Text("戻る"),
-        onPressed: () {
-          setState(() {
-            controlApp.toggleInRon(_playerID);
-          });
-        },
+        onPressed: () => setState(() {
+          controlApp.toggleInRon(_playerID);
+        }),
       );
     }
     else{
@@ -238,11 +233,9 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       return RaisedButton(
         color: (controlApp.players[_playerID].isWaitingHand) ? Colors.redAccent[100]:Colors.grey,
         child: (controlApp.players[_playerID].isWaitingHand) ? Text('聴牌'):Text('ノーテン'),
-        onPressed: () {
-          setState(() {
-            controlApp.players[_playerID].toggleWaitingHand();
-          });
-        },
+        onPressed: () => setState(() {
+          controlApp.players[_playerID].toggleWaitingHand();
+        }),
       );
     }
     else {
@@ -278,35 +271,27 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
             children: [
               RaisedButton(
                 child: Text("次局"),
-                onPressed: () {
-                  setState(() {
-                    controlApp.nextRound();
-                  });
-                },
+                onPressed: () => setState(() {
+                  controlApp.nextRound();
+                }),
               ),
               RaisedButton(
                 color: (controlApp.inDrawn) ? Colors.redAccent[100]:null,
                 child: (controlApp.inDrawn) ? Text('確定'):Text("流局"),
                 onPressed: () {
-                  if (controlApp.inDrawn) {
-                    setState(() {
+                  setState(() {
+                    if (controlApp.inDrawn)
                       controlApp.drawn();
-                    });
-                  }
-                  else {
-                    setState(() {
+                    else
                       controlApp.toggleDrawn();
-                    });
-                  }
+                  });
                 },
               ),
               RaisedButton(
                 child: Text("前局"),
-                onPressed: () {
-                  setState(() {
-                    controlApp.backRound();
-                  });
-                },
+                onPressed: () => setState(() {
+                  controlApp.backRound();
+                }),
               ),
             ]
           ),
@@ -320,11 +305,9 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                     Icon(Icons.add),
                   ],
                 ),
-                onPressed: () {
-                  setState(() {
-                    controlApp.incrementStack();
-                  });
-                },
+                onPressed: () => setState(() {
+                  controlApp.incrementStack();
+                }),
               ),
               RaisedButton(
                 child: Row(
@@ -333,11 +316,9 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                     Icon(Icons.remove),
                   ],
                 ),
-                onPressed: () {
-                  setState(() {
-                    controlApp.decresementStack();
-                  });
-                },
+                onPressed: () => setState(() {
+                  controlApp.decresementStack();
+                }),
               ),
               ],
           ),
@@ -365,9 +346,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
   }
 
   Future<bool> _showConfirmAlert({int func}) {
-    print(func);
     func = (null == func)? 0:func;
-    print(func);
     AlertParameter alertPara = AlertParameter(func);
     return showDialog(
       context: context,
@@ -404,7 +383,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
   }
 
   Widget _centerDisplay() {
-    String reachBetNum = (controlApp.reachBets / 1000).toStringAsFixed(0);
+    int reachBetNum = controlApp.reachBets ~/ 1000;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
