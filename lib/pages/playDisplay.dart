@@ -27,7 +27,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       onWillPop: _showConfirmAlert,
       child: Scaffold(
         appBar:AppBar(
-          title: Text('四人麻雀'),
+          title: Text((4 == controlApp.playerNum)? '四人麻雀':'三人麻雀'),
           backgroundColor: Colors.green,
         ),
         body: FutureBuilder(
@@ -160,7 +160,6 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                     },
                   ),
                 ),
-
               ],
             ),
           ],

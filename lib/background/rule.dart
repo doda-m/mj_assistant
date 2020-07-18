@@ -1,4 +1,7 @@
+import 'package:mj_assistant/background/controlApp.dart';
+
 class SettingRule {
+  bool _isChanged;
   int _startingPoint;
   bool _isLossTsumo;
   bool _isFixedPoint;
@@ -9,10 +12,9 @@ class SettingRule {
     _isFixedPoint = false;
   }
 
+  bool get isChanged => _isChanged;
   set startingPoint(int point) => _startingPoint = point;
   void toggleLossTsumo() => _isLossTsumo = !_isLossTsumo;
   void toggleFixedPoint() => _isFixedPoint = !_isFixedPoint;
-
-
 
 }

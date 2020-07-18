@@ -24,6 +24,7 @@ class Player {
         _isWaitingHand = false;
 
   int get score => _score;
+  set score(int point) => _score = point;
   int get wind => _wind;
   bool get isStarter => _isStarter;
   bool get isReach => _isReach;
@@ -70,51 +71,39 @@ class Player {
     return cost;
   }
 
-  void cancelReach() {
-    _isReach = false;
-  }
+  void cancelReach() => _isReach = false;
 
-  void toggleWaitingHand() {
-    _isWaitingHand = !_isWaitingHand;
-  }
+  void toggleWaitingHand() => _isWaitingHand = !_isWaitingHand;
 
-  void cancelWaitingHand() {
-    _isWaitingHand = false;
-  }
+  void cancelWaitingHand() => _isWaitingHand = false;
 
   int tsumo({@required int winner, @required int fu, @required int han}) {
     int childPay;
     int parentPay;
     _isReach = false;
 
-    if (EAST ==  (winner - _playerID + _wind) % _playerNum) {
+    if (EAST ==  (winner - _playerID + _wind) % _playerNum)
       childPay = parentTsumoPointTable[fu][han];
-    }
     else {
       childPay = childTsumoPointTable[fu][han].child;
       parentPay = childTsumoPointTable[fu][han].parent;
     }
 
     if (_playerID == winner) {
-      if (_isParent) {
+      if (_isParent)
         return childPay * (_playerNum - 1);
-      }
-      else {
+      else
         return (childPay * (_playerNum - 2)) + parentPay;
-      }
     }
     else {
-      if (_isParent) {
+      if (_isParent)
         return - parentPay;
-      }
-      else {
+      else
         return - childPay;
-      }
     }
   }
 
   void addPoint(int addPoint) {
     _score += addPoint;
   }
-
 }
