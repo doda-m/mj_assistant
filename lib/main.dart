@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mj_assistant/pages/fixedPoint.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'pages/playDisplay.dart';
 import 'pages/home.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/home': (BuildContext context) => HomePage(),
         '/playDisplay': (BuildContext context) => PlayDisplayPage(),
-        '/PointTable': (BuildContext context) => PointTablePage(),
+        '/pointTable': (BuildContext context) => PointTablePage(),
+        '/fixedPoint': (BuildContext context) => FixedPointPage(),
       },
     );
   }

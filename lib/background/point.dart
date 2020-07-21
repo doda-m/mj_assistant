@@ -134,6 +134,10 @@ const List<String> childFixedTsumoTable = [
   '300/500', '500/1000', '1000/2000', '2000/4000',
   '3000/6000', '4000/8000', '6000/12000', '8000/16000',];
 
+const List<String> childFixedNoLossTsumoTable = [
+  '500/700', '800/1300', '1500/2500', '3000/5000',
+  '4500/7500', '6000/10000', '9000/15000', '12000/20000',];
+
 const List<List<String>> childRonTable = [
 [],
 ['--', '1600', '3200', '6400'],
@@ -148,6 +152,9 @@ const List<List<String>> childRonTable = [
 ['3600', '7100',],
 ];
 
+const List<String> childFixedRonTable = [
+  '1000', '2000', '4000', '8000',
+  '4500/7500', '6000/10000', '9000/15000', '12000/20000',];
 
 const List<List<String>> parentTsumoTable = [
   ['--', '700\nオール', '1300\nオール', '2600\nオール'],

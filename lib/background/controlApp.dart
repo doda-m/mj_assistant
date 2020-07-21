@@ -172,7 +172,7 @@ class ControlApp {
     @required int winner, @required int looser, @required int fu, @required int han}) {
     int point = 0;
 
-    point += (300 * _stack);
+    point += (100 * (playerNum - 1) * _stack);
     if (players[winner].isParent)
       point += parentRonPointTable[fu][han];
     else

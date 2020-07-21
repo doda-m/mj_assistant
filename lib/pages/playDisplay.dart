@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 import 'package:mj_assistant/background/player.dart';
 import 'package:mj_assistant/pages/alert.dart';
+import 'package:mj_assistant/pages/fixedPoint.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,8 +19,9 @@ class PlayDisplayPage extends StatefulWidget {
 
 class _PlayDisplayState extends State<PlayDisplayPage> {
   ControlApp controlApp;
-  _PlayDisplayState(bool isFourVer):
-        controlApp = (isFourVer)? ControlApp(4):ControlApp(3);
+  bool _isFourVer;
+  _PlayDisplayState(this._isFourVer):
+        controlApp = (_isFourVer)? ControlApp(4):ControlApp(3);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       onWillPop: _showConfirmAlert,
       child: Scaffold(
         appBar:AppBar(
-          title: Text((4 == controlApp.playerNum)? '四人麻雀':'三人麻雀'),
+          title: Text((_isFourVer)? '四人麻雀':'三人麻雀'),
           backgroundColor: Colors.green,
         ),
         body: FutureBuilder(
@@ -61,7 +63,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                           width: MediaQuery.of(context).size.width / 3,
                           child: RotatedBox(
                             quarterTurns: 1,
-                            child: (4 == controlApp.playerNum)? _playerDisplay(3):null,
+                            child: (_isFourVer)? _playerDisplay(3):null,
                           ),
                         ),
                         Container(
@@ -204,12 +206,24 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
             Navigator.push(
                 this.context,
                 MaterialPageRoute(
-                    builder: (context) => PointTablePage(
-                      controlApp: controlApp,
-                      winner: controlApp.ronPlayer,
-                      looser: _playerID,
-                      isTsumo: RON,
-                    )
+                    builder: (context) {
+                      if (controlApp.rule.isFixedPoint) {
+                        return FixedPointPage(
+                          controlApp: controlApp,
+                          winner: controlApp.ronPlayer,
+                          looser: _playerID,
+                          isTsumo: RON,
+                        );
+                      }
+                      else {
+                        return PointTablePage(
+                          controlApp: controlApp,
+                          winner: controlApp.ronPlayer,
+                          looser: _playerID,
+                          isTsumo: RON,
+                        );
+                      }
+                    }
                 )
             ).then((value) {
               setState(() {
