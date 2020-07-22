@@ -15,20 +15,20 @@ class PointTablePage extends StatelessWidget {
   PointTablePage({Key key,this.controlApp, this.winner, this.isTsumo, this.looser}) {
     if (!parentFlag) {
       if (isTsumo) {
-        if(controlApp.rule.isNoLossTsumo)
-          _table = childNoLossTsumoTable;
-        else
+        if(controlApp.rule.isLossTsumo)
           _table = childTsumoTable;
+        else
+          _table = childNoLossTsumoTable;
       }
       else
         _table = childRonTable;
     }
     else {
       if(isTsumo) {
-        if(controlApp.rule.isNoLossTsumo)
-          _table = parentNoLossTsumoTable;
-        else
+        if(controlApp.rule.isLossTsumo)
           _table = parentTsumoTable;
+        else
+          _table = parentNoLossTsumoTable;
       }
       else
         _table = parentRonTable;

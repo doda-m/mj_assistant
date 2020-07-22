@@ -24,43 +24,71 @@ class FixedPointPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox( height: 50, width:  100,
-            child: RaisedButton(
-              child: Text('1翻'),
-              onPressed: () {
-                return _confirmAlert(context, 0);
-              },
-            ),
+          const SizedBox(height: 50,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              RaisedButton(
+                child: Text('1翻'),
+                onPressed: () => showDialog( context: context,
+                  builder: (BuildContext context) => _confirmAlert(context, 0,'1翻'),),
+              ),
+              RaisedButton(
+                child: Text('2翻'),
+                onPressed: () => showDialog( context: context,
+                  builder: (BuildContext context) => _confirmAlert(context, 0, '2翻'),),
+              ),
+              RaisedButton(
+                child: Text('3翻'),
+                onPressed: () => showDialog( context: context,
+                  builder: (BuildContext context) => _confirmAlert(context, 0, '3翻'),),
+              ),
+            ],
           ),
-          RaisedButton(
-            child: Text('2翻'),
-            onPressed: () => _confirmAlert(context, 0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              RaisedButton(
+                child: Text('満貫 (4, 5翻)'),
+                onPressed: () => showDialog( context: context,
+                    builder: (BuildContext context) => _confirmAlert(context, 0, '満貫 (4, 5翻)'),),
+              ),
+              RaisedButton(
+                child: Text('跳満 (6, 7翻)'),
+                onPressed: () => showDialog( context: context,
+                  builder: (BuildContext context) => _confirmAlert(context, 0, '跳満 (6, 7翻)'),),
+              ),
+              RaisedButton(
+                child: Text('倍満 (8 ~ 10翻)'),
+                onPressed: () => showDialog( context: context,
+                  builder: (BuildContext context) => _confirmAlert(context, 0, '倍満 (8 ~ 10翻)'),),
+              ),
+            ],
           ),
-          RaisedButton(
-            child: Text('3翻'),
-            onPressed: () => _confirmAlert(context, 0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              RaisedButton(
+                child: Text('三倍満 (11, 12翻)'),
+                onPressed: () => showDialog( context: context,
+                  builder: (BuildContext context) => _confirmAlert(context, 0, '三倍満 (11, 12翻)'),)
+              ),
+              RaisedButton(
+                child: Text('役満 (13翻以上)'),
+                onPressed: () => showDialog( context: context,
+                  builder: (BuildContext context) => _confirmAlert(context, 0, '役満 (13翻以上)'),),
+              ),
+            ],
           ),
-          RaisedButton(
-            child: Text('満貫 (4,5翻)'),
-            onPressed: () => _confirmAlert(context, 0),
-          ),
-          RaisedButton(
-            child: Text('跳満 (6,7翻)'),
-            onPressed: () => _confirmAlert(context, 0),
-          ),
-          RaisedButton(
-            child: Text('倍満 (8, 9, 10翻)'),
-            onPressed: () => _confirmAlert(context, 0),
-          ),
-
+          const SizedBox(height: 50,),
         ],
       ),
     );
   }
 
-  Widget _confirmAlert(BuildContext context, int han) {
+  Widget _confirmAlert(BuildContext context, int han, String title) {
     return AlertDialog(
-      title: Text('${_table[han]} でよろしいですか?'),
+      title: Text('$title でよろしいですか?'),
       actions: [
         FlatButton(
           child: Text('OK', style: TextStyle(color: Colors.redAccent,),),

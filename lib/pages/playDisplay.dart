@@ -5,6 +5,7 @@ import 'package:mj_assistant/background/player.dart';
 import 'package:mj_assistant/pages/alert.dart';
 import 'package:mj_assistant/pages/fixedPoint.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
+import 'package:mj_assistant/pages/settingRule.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const bool TSUMO = true;
@@ -260,11 +261,22 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
           Navigator.push(
               this.context,
               MaterialPageRoute(
-                  builder: (context) => PointTablePage(
-                    controlApp: controlApp,
-                    winner: _playerID,
-                    isTsumo: TSUMO,
-                  )
+                  builder: (context) {
+                    if (controlApp.rule.isFixedPoint) {
+                      return FixedPointPage(
+                        controlApp: controlApp,
+                        winner: _playerID,
+                        isTsumo: TSUMO,
+                      );
+                    }
+                    else {
+                      return PointTablePage(
+                        controlApp: controlApp,
+                        winner: _playerID,
+                        isTsumo: TSUMO,
+                      );
+                    }
+                  }
               )
           ).then((value) {
             setState(() {
@@ -344,6 +356,17 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                 color: (controlApp.inSetStarter) ? Colors.redAccent[100]:null,
                 onPressed: () {
                   _showConfirmAlert(func: 1);
+                },
+              ),
+              RaisedButton(
+                child: Text("ルール設定"),
+                onPressed: () {
+                  Navigator.push(
+                      this.context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingRulePage(controlApp),
+                      )
+                  );
                 },
               ),
               RaisedButton(
