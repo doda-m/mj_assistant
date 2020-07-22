@@ -73,16 +73,27 @@ class Player {
 
   void cancelWaitingHand() => _isWaitingHand = false;
 
-  int tsumo({@required int winner, @required int fu, @required int han}) {
+  int tsumo(
+      {@required int winner, @required int fu, @required int han, @required bool isLoss}) {
     int childPay;
     int parentPay;
     _isReach = false;
 
-    if (EAST ==  (winner - _playerID + _wind) % _playerNum)
-      childPay = parentTsumoPointTable[fu][han];
+    if (EAST ==  (winner - _playerID + _wind) % _playerNum) {
+      if (isLoss)
+        childPay = parentTsumoPointTable[fu][han];
+      else
+        childPay = parentNoLossTsumoPointTable[fu][han];
+    }
     else {
-      childPay = childTsumoPointTable[fu][han].child;
-      parentPay = childTsumoPointTable[fu][han].parent;
+      if (isLoss) {
+        childPay = childTsumoPointTable[fu][han].child;
+        parentPay = childTsumoPointTable[fu][han].parent;
+      }
+      else {
+        childPay = childNoLossTsumoPointTable[fu][han].child;
+        parentPay = childNoLossTsumoPointTable[fu][han].parent;
+      }
     }
 
     if (_playerID == winner) {

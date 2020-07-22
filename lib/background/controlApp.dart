@@ -154,10 +154,11 @@ class ControlApp {
   void tsumo({@required int winner, @required int fu, @required int han}) {
     List<int> point = List.filled(playerNum, 0);
     for(int i = 0; i < playerNum; ++i) {
-      point[i] = players[i].tsumo(winner: winner, fu: fu, han: han);
+      point[i] = players[i].tsumo(winner: winner, fu: fu, han: han, isLoss:rule.isLossTsumo);
       if (i != winner)
         point[i] -= ((_stackBets ~/ (playerNum - 1)) * _stack);
     }
+
     point[winner] += _reachBets + (_stackBets * _stack);
     _reachBets = 0;
 
