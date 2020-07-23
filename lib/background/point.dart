@@ -34,6 +34,16 @@ final List<List<Tsumo>> childNoLossTsumoPointTable = [
   [Tsumo(3000, 5000), Tsumo(4500, 7500), Tsumo(6000, 10000), Tsumo(9000, 15000), Tsumo(12000, 20000),],
 ];
 
+final List<Tsumo> childFixedTsumoPointTable = [
+  Tsumo(300, 500), Tsumo(500, 1000), Tsumo(1000, 2000), Tsumo(2000, 4000),
+  Tsumo(3000, 6000), Tsumo(4000, 8000), Tsumo(6000, 12000), Tsumo(8000, 16000),
+];
+
+final List<Tsumo> childFixedNoLossTsumoPointTable = [
+  Tsumo(500, 700), Tsumo(800, 1300), Tsumo(1500, 2500), Tsumo(3000, 5000),
+  Tsumo(4500, 7500), Tsumo(6000, 10000), Tsumo(9000, 15000), Tsumo(12000, 20000),
+];
+
 const List<List<int>> parentTsumoPointTable = [
   [0, 700, 1300, 2600,],
   [0, 0, 1600, 3200,],
@@ -48,7 +58,6 @@ const List<List<int>> parentTsumoPointTable = [
   [0, 3600,],
   [4000, 6000, 8000, 12000, 16000,],
 ];
-
 
 const List<List<int>> parentNoLossTsumoPointTable = [
   [0, 1100, 2000, 3900,],
@@ -65,6 +74,12 @@ const List<List<int>> parentNoLossTsumoPointTable = [
   [6000, 9000, 12000, 18000, 24000,],
 ];
 
+const List<int> parentFixedTsumoPointTable = [
+  500, 1000, 2000, 4000, 6000, 8000, 12000, 16000,];
+
+const List<int> parentFixedNoLossTsumoPointTable = [
+  800, 1500, 3000, 6000, 9000, 12000, 18000, 24000,];
+
 const List<List<int>> childRonPointTable = [
   [0, 0, 0, 0,],
   [0, 1600, 3200, 6400,],
@@ -80,6 +95,9 @@ const List<List<int>> childRonPointTable = [
   [8000, 12000, 16000, 24000, 32000],
 ];
 
+const List<int> childFixedRonPointTable = [
+  1000, 2000, 4000, 8000, 12000, 16000, 24000, 32000,];
+
 const List<List<int>> parentRonPointTable = [
   [0, 0, 0, 0,],
   [0, 2400, 4800, 9600,],
@@ -94,6 +112,9 @@ const List<List<int>> parentRonPointTable = [
   [5300, 10600,],
   [12000, 18000, 24000, 36000, 48000],
 ];
+
+const List<int> parentFixedRonPointTable = [
+  1500, 3000, 6000, 12000, 18000, 24000, 36000, 48000,];
 
 const List<String> fuList = [
   '20 符', '25 符', '30 符', '40 符', '50 符', '60 符',

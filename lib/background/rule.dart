@@ -1,11 +1,13 @@
 class SettingRule {
   bool _isChanged;
   int _startingPoint;
+  int stackBetPoint;
   bool _isLossTsumo;
   bool _isFixedPoint;
 
   SettingRule(int playerNum) {
     _startingPoint = (4 == playerNum)? 25000:35000;
+    stackBetPoint = (4 == playerNum)? 300:200;
     _isLossTsumo = true;
     _isFixedPoint = false;
   }

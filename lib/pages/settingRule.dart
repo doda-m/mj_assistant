@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/controlApp.dart';
-import 'package:mj_assistant/background/rule.dart';
-import 'package:mj_assistant/background/player.dart';
-
+import 'setting/settingStack.dart';
 
 class SettingRulePage extends StatefulWidget {
   final ControlApp controlApp;
@@ -54,6 +52,29 @@ class _SettingRuleState extends State<SettingRulePage> {
                 });
               }
           ),
+//          ListTile(
+//            title: Text('原点'),
+//            trailing: Icon(Icons.navigate_next),
+//            onTap: () => Navigator.push(
+//                this.context,
+//                MaterialPageRoute(
+//                  builder: (context) => SettingStackPage(controlApp),
+//                )
+//            ),
+//          ),
+          ListTile(
+            title: Text('積み棒'),
+            subtitle: Text('${controlApp.rule.stackBetPoint}'),
+            trailing: Icon(Icons.navigate_next),
+            onTap: () => Navigator.push(
+                this.context,
+                MaterialPageRoute(
+                  builder: (context) => SettingStackPage(controlApp),
+                )
+            ).then((value) {
+              setState(() { });
+            }),
+          )
         ],
       ),
     );

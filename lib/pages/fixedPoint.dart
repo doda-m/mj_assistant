@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/controlApp.dart';
-import 'package:mj_assistant/background/point.dart';
 
 
 class FixedPointPage extends StatelessWidget {
@@ -8,7 +7,6 @@ class FixedPointPage extends StatelessWidget {
   final int winner;
   final int looser;
   final bool isTsumo;
-  List<String> _table;
 
   FixedPointPage({Key key,this.controlApp, this.winner, this.isTsumo, this.looser});
 
@@ -36,12 +34,12 @@ class FixedPointPage extends StatelessWidget {
               RaisedButton(
                 child: Text('2翻'),
                 onPressed: () => showDialog( context: context,
-                  builder: (BuildContext context) => _confirmAlert(context, 0, '2翻'),),
+                  builder: (BuildContext context) => _confirmAlert(context, 1, '2翻'),),
               ),
               RaisedButton(
                 child: Text('3翻'),
                 onPressed: () => showDialog( context: context,
-                  builder: (BuildContext context) => _confirmAlert(context, 0, '3翻'),),
+                  builder: (BuildContext context) => _confirmAlert(context, 2, '3翻'),),
               ),
             ],
           ),
@@ -51,17 +49,17 @@ class FixedPointPage extends StatelessWidget {
               RaisedButton(
                 child: Text('満貫 (4, 5翻)'),
                 onPressed: () => showDialog( context: context,
-                    builder: (BuildContext context) => _confirmAlert(context, 0, '満貫 (4, 5翻)'),),
+                    builder: (BuildContext context) => _confirmAlert(context, 3, '満貫 (4, 5翻)'),),
               ),
               RaisedButton(
                 child: Text('跳満 (6, 7翻)'),
                 onPressed: () => showDialog( context: context,
-                  builder: (BuildContext context) => _confirmAlert(context, 0, '跳満 (6, 7翻)'),),
+                  builder: (BuildContext context) => _confirmAlert(context, 4, '跳満 (6, 7翻)'),),
               ),
               RaisedButton(
                 child: Text('倍満 (8 ~ 10翻)'),
                 onPressed: () => showDialog( context: context,
-                  builder: (BuildContext context) => _confirmAlert(context, 0, '倍満 (8 ~ 10翻)'),),
+                  builder: (BuildContext context) => _confirmAlert(context, 5, '倍満 (8 ~ 10翻)'),),
               ),
             ],
           ),
@@ -71,12 +69,12 @@ class FixedPointPage extends StatelessWidget {
               RaisedButton(
                 child: Text('三倍満 (11, 12翻)'),
                 onPressed: () => showDialog( context: context,
-                  builder: (BuildContext context) => _confirmAlert(context, 0, '三倍満 (11, 12翻)'),)
+                  builder: (BuildContext context) => _confirmAlert(context, 6, '三倍満 (11, 12翻)'),)
               ),
               RaisedButton(
                 child: Text('役満 (13翻以上)'),
                 onPressed: () => showDialog( context: context,
-                  builder: (BuildContext context) => _confirmAlert(context, 0, '役満 (13翻以上)'),),
+                  builder: (BuildContext context) => _confirmAlert(context, 7, '役満 (13翻以上)'),),
               ),
             ],
           ),
@@ -94,9 +92,9 @@ class FixedPointPage extends StatelessWidget {
           child: Text('OK', style: TextStyle(color: Colors.redAccent,),),
           onPressed: () {
             if(isTsumo)
-              controlApp.tsumo(winner: winner, fu: 0, han: han);
+              controlApp.fixedTsumo(winner: winner, han: han,);
             else
-              controlApp.ron(winner: winner, looser: looser, fu: 0, han: han);
+              controlApp.fixedRon(winner: winner, looser: looser, han: han);
             Navigator.of(context).pop();
             Navigator.of(context).pop();
           },

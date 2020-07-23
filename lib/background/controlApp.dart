@@ -13,7 +13,6 @@ class ControlApp {
   int _prevalentWind;
   int _round;
   int _stack;
-  int _stackBets;
   int _reachBets;
   int _starter;
   bool _inSetStarter = false;
@@ -28,7 +27,6 @@ class ControlApp {
 
   ControlApp(int playerNum):
         _defaultBets = (4 == playerNum) ? 3000:2000,
-        _stackBets = (4 == playerNum) ? 300:200,
         _prevalentWind = 0,
         _round = 0,
         _stack = 0,
@@ -156,10 +154,10 @@ class ControlApp {
     for(int i = 0; i < playerNum; ++i) {
       point[i] = players[i].tsumo(winner: winner, fu: fu, han: han, isLoss:rule.isLossTsumo);
       if (i != winner)
-        point[i] -= ((_stackBets ~/ (playerNum - 1)) * _stack);
+        point[i] -= ((rule.stackBetPoint ~/ (playerNum - 1)) * _stack);
     }
 
-    point[winner] += _reachBets + (_stackBets * _stack);
+    point[winner] += _reachBets + (rule.stackBetPoint * _stack);
     _reachBets = 0;
 
     for (int i = 0; i < playerNum; i++) {
@@ -173,14 +171,29 @@ class ControlApp {
 
   void fixedTsumo({@required int winner, @required int han}) {
     List<int> point = List.filled(playerNum, 0);
+    for(int i = 0; i < playerNum; ++i) {
+      point[i] = players[i].fixedTsumo(winner: winner, han: han, isLoss:rule.isLossTsumo);
+      if (i != winner)
+        point[i] -= ((rule.stackBetPoint ~/ (playerNum - 1)) * _stack);
+    }
 
+    point[winner] += _reachBets + (rule.stackBetPoint * _stack);
+    _reachBets = 0;
+
+    for (int i = 0; i < playerNum; i++) {
+      players[i].addPoint(point[i]);
+    }
+    if (players[winner].isParent)
+      _stack++;
+    else
+      nextRound();
   }
 
   void ron({
     @required int winner, @required int looser, @required int fu, @required int han}) {
     int point = 0;
 
-    point += (_stackBets * _stack);
+    point += (rule.stackBetPoint * _stack);
     if (players[winner].isParent)
       point += parentRonPointTable[fu][han];
     else
@@ -188,6 +201,24 @@ class ControlApp {
 
     players[looser].addPoint(-point);
 
+    point += _reachBets;
+    _reachBets = 0;
+    players[winner].addPoint(point);
+
+    players.forEach((player) => player.cancelReach());
+  }
+
+  void fixedRon(
+      {@required int winner, @required int looser, @required int han}) {
+    int point = 0;
+
+    point += (rule.stackBetPoint * _stack);
+    if (players[winner].isParent)
+      point += parentFixedRonPointTable[han];
+    else
+      point += childFixedRonPointTable[han];
+
+    players[looser].addPoint(-point);
     point += _reachBets;
     _reachBets = 0;
     players[winner].addPoint(point);

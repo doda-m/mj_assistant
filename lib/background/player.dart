@@ -110,6 +110,43 @@ class Player {
     }
   }
 
+  int fixedTsumo(
+      {@required int winner, @required int han, @required bool isLoss}) {
+    int childPay;
+    int parentPay;
+    _isReach = false;
+
+    if (EAST ==  (winner - _playerID + _wind) % _playerNum) {
+      if (isLoss)
+        childPay = parentFixedTsumoPointTable[han];
+      else
+        childPay = parentFixedNoLossTsumoPointTable[han];
+    }
+    else {
+      if (isLoss) {
+        childPay = childFixedTsumoPointTable[han].child;
+        parentPay = childFixedTsumoPointTable[han].parent;
+      }
+      else {
+        childPay = childFixedNoLossTsumoPointTable[han].child;
+        parentPay = childFixedNoLossTsumoPointTable[han].parent;
+      }
+    }
+
+    if (_playerID == winner) {
+      if (_isParent)
+        return childPay * (_playerNum - 1);
+      else
+        return (childPay * (_playerNum - 2)) + parentPay;
+    }
+    else {
+      if (_isParent)
+        return - parentPay;
+      else
+        return - childPay;
+    }
+  }
+
   void addPoint(int addPoint) => _score += addPoint;
 
 }
