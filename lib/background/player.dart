@@ -24,7 +24,6 @@ class Player {
         _isWaitingHand = false;
 
   int get score => _score;
-  set score(int point) => _score = point;
   int get wind => _wind;
   bool get isStarter => _isStarter;
   bool get isReach => _isReach;
@@ -32,6 +31,7 @@ class Player {
   bool get isWaitingHand => _isWaitingHand;
 //  set wind(int newWind) => _wind = newWind;
 
+  void setScore(int point) => _score = point;
   void nextRound(int newWind) {
     _wind = newWind;
     _isReach = false;

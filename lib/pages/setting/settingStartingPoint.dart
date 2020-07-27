@@ -1,37 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 
-class SettingStackPage extends StatefulWidget {
+class SettingStartingPointPage extends StatefulWidget {
   final ControlApp controlApp;
-  SettingStackPage(this.controlApp);
+  SettingStartingPointPage(this.controlApp);
   @override
-  _SettingStackState createState() => _SettingStackState(controlApp);
+  _SettingStartingPoint createState() => _SettingStartingPoint(controlApp);
 }
 
-class _SettingStackState extends State<SettingStackPage> {
+class _SettingStartingPoint extends State<SettingStartingPointPage> {
   final ControlApp controlApp;
   String _type;
-  _SettingStackState(this.controlApp) {
-    int stackBet = controlApp.rule.stackBetPoint ~/ (controlApp.playerNum - 1);
-    switch (stackBet) {
-      case 100: {
-        _type = '100';
-        break;
-      }
-      case 500: {
-        _type = '500';
-        break;
-      }
-      default:
-        _type = 'custom';
-    }
-  }
+  _SettingStartingPoint(this.controlApp):
+        _type = '${controlApp.rule.stackBetPoint ~/ (controlApp.playerNum - 1)}';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('設定 (積み棒)'),
+        title: const Text('設定 (原点)'),
         backgroundColor: Colors.green,
       ),
       body: Column(
@@ -39,7 +26,7 @@ class _SettingStackState extends State<SettingStackPage> {
           RadioListTile(
             activeColor: Colors.blue,
             controlAffinity: ListTileControlAffinity.trailing,
-            title: (4 == controlApp.playerNum)? Text('300'):Text('200'),
+            title: (4 == controlApp.playerNum)? const Text('25000'):const Text('35000'),
             value: '100',
             groupValue: _type,
             onChanged: (e) {

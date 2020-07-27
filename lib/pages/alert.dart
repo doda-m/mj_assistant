@@ -22,7 +22,7 @@ class AlertParameter {
   final String _title;
   final String _content;
   final String _yesButton;
-  final String _noButton = 'キャンセル';
+  final String _noButton = 'いいえ';
   final String _extraButton = '連荘';
   final int _alertType;
 

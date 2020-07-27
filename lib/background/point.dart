@@ -31,7 +31,7 @@ final List<List<Tsumo>> childNoLossTsumoPointTable = [
   [Tsumo(1200, 1900), Tsumo(2300, 3700),],
   [Tsumo(1200, 2000), Tsumo(2400, 4000),],
   [Tsumo(0, 0), Tsumo(2700, 4500),],
-  [Tsumo(3000, 5000), Tsumo(4500, 7500), Tsumo(6000, 10000), Tsumo(9000, 15000), Tsumo(12000, 20000),],
+  [Tsumo(3000, 5000), Tsumo(4000, 8000), Tsumo(6000, 10000), Tsumo(8000, 16000), Tsumo(12000, 20000),],
 ];
 
 final List<Tsumo> childFixedTsumoPointTable = [
@@ -41,7 +41,7 @@ final List<Tsumo> childFixedTsumoPointTable = [
 
 final List<Tsumo> childFixedNoLossTsumoPointTable = [
   Tsumo(500, 700), Tsumo(800, 1300), Tsumo(1500, 2500), Tsumo(3000, 5000),
-  Tsumo(4500, 7500), Tsumo(6000, 10000), Tsumo(9000, 15000), Tsumo(12000, 20000),
+  Tsumo(4000, 8000), Tsumo(6000, 10000), Tsumo(8000, 16000), Tsumo(12000, 20000),
 ];
 
 const List<List<int>> parentTsumoPointTable = [
@@ -175,7 +175,7 @@ const List<List<String>> childRonTable = [
 
 const List<String> childFixedRonTable = [
   '1000', '2000', '4000', '8000',
-  '4500/7500', '6000/10000', '9000/15000', '12000/20000',];
+  '12000', '16000', '24000', '32000',];
 
 const List<List<String>> parentTsumoTable = [
   ['--', '700\nオール', '1300\nオール', '2600\nオール'],

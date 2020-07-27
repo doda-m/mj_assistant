@@ -6,6 +6,7 @@ import 'package:mj_assistant/pages/alert.dart';
 import 'package:mj_assistant/pages/fixedPoint.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'package:mj_assistant/pages/settingRule.dart';
+import 'package:mj_assistant/pages/changePoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const bool TSUMO = true;
@@ -30,7 +31,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       onWillPop: _showConfirmAlert,
       child: Scaffold(
         appBar:AppBar(
-          title: Text((_isFourVer)? '四人麻雀':'三人麻雀'),
+          title: (_isFourVer)? const Text('四人麻雀'):const Text('三人麻雀'),
           backgroundColor: Colors.green,
         ),
         body: FutureBuilder(
@@ -109,7 +110,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
               child: Center(
                 child: RaisedButton(
                   color: player.isReach ? Colors.redAccent: Colors.grey,
-                  child: Text('リーチ',),
+                  child: const Text('リーチ',),
                   onPressed: () => setState(() {
                     controlApp.toggleReach(playerID);
                   }),
@@ -148,7 +149,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                     color: (player.isStarter) ? Colors.redAccent[200]:Colors.white30,
                     child: Text('${ControlApp.WIND_NAME[controlApp.wind]}',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
                       ),),
@@ -175,7 +176,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
         color: Colors.white,
         child: controlApp.inDiffScore ?
         Text('${_player.score - controlApp.players[controlApp.diffBasePlayer].score}', style: TextStyle(fontSize: 28)):
-        Text('${_player.score}', style: TextStyle(fontSize: 28),),
+        Text('${_player.score}', style: const TextStyle(fontSize: 28),),
         onPressed: () {
           setState(() {
             if (!controlApp.inDiffScore)
@@ -184,6 +185,14 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
               controlApp.diffScoreMode(_playerID);
           });
         },
+        onLongPress: () => Navigator.push(
+            this.context,
+            MaterialPageRoute(
+                builder: (context) => ChangePointPage(controlApp, _playerID),
+            )
+        ).then((value) {
+          setState(() { });
+        }),
       ),
     );
   }
@@ -192,7 +201,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     if (controlApp.ronPlayer == _playerID) {
       return RaisedButton(
         color: Colors.blueGrey,
-        child: Text("戻る"),
+        child: const Text("戻る"),
         onPressed: () => setState(() {
           controlApp.toggleInRon(_playerID);
         }),
@@ -201,7 +210,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     else{
       return RaisedButton(
         color: controlApp.inRon ? Colors.redAccent[100]:Colors.blueAccent,
-        child: controlApp.inRon ? Text("放銃"):Text('ロン'),
+        child: controlApp.inRon ? const Text("放銃"):const Text('ロン'),
         onPressed: () {
           if (controlApp.inRon) {
             Navigator.push(
@@ -256,7 +265,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     else {
       return RaisedButton(
         color: Colors.lightBlueAccent,
-        child: Text("ツモ"),
+        child: const Text("ツモ"),
         onPressed: () {
           Navigator.push(
               this.context,
@@ -296,14 +305,14 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-                child: Text("次局"),
+                child: const Text("次局"),
                 onPressed: () => setState(() {
                   controlApp.nextRound();
                 }),
               ),
               RaisedButton(
                 color: (controlApp.inDrawn) ? Colors.redAccent[100]:null,
-                child: (controlApp.inDrawn) ? Text('確定'):Text("流局"),
+                child: (controlApp.inDrawn) ? const Text('確定'):const Text("流局"),
                 onPressed: () {
                   setState(() {
                     if (controlApp.inDrawn)
@@ -314,7 +323,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                 },
               ),
               RaisedButton(
-                child: Text("前局"),
+                child: const Text("前局"),
                 onPressed: () => setState(() {
                   controlApp.backRound();
                 }),
@@ -327,8 +336,8 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
               RaisedButton(
                 child: Row(
                   children: [
-                    Text("連荘"),
-                    Icon(Icons.add),
+                    const Text("連荘"),
+                    const Icon(Icons.add),
                   ],
                 ),
                 onPressed: () => setState(() {
@@ -338,8 +347,8 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
               RaisedButton(
                 child: Row(
                   children: [
-                    Text("連荘"),
-                    Icon(Icons.remove),
+                    const Text("連荘"),
+                    const Icon(Icons.remove),
                   ],
                 ),
                 onPressed: () => setState(() {
@@ -352,14 +361,14 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-                child: Text("親決め"),
+                child: const Text("親決め"),
                 color: (controlApp.inSetStarter) ? Colors.redAccent[100]:null,
                 onPressed: () {
                   _showConfirmAlert(func: 1);
                 },
               ),
               RaisedButton(
-                child: Text("ルール設定"),
+                child: const Text("ルール設定"),
                 onPressed: () {
                   Navigator.push(
                       this.context,
@@ -370,7 +379,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                 },
               ),
               RaisedButton(
-                child: Text("リセット"),
+                child: const Text("リセット"),
                 onPressed: () {
                   _showConfirmAlert();
                 },

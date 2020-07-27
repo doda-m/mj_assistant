@@ -344,13 +344,19 @@ class PointTablePage extends StatelessWidget {
       :Text('${_table[fu][han].replaceAll('\n', ' ')} でよろしいですか?'),
       actions: [
         FlatButton(
-          child: Text('OK', style: TextStyle(color: Colors.redAccent,),),
+          child: const Text('はい', style: const TextStyle(color: Colors.redAccent,),),
           onPressed: () {
             if(isTsumo)
               controlApp.tsumo(winner: winner, fu: fu, han: han);
             else
               controlApp.ron(winner: winner, looser: looser, fu: fu, han: han);
             Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          },
+        ),
+        FlatButton(
+          child: const Text('いいえ', style: const TextStyle(color: Colors.redAccent,),),
+          onPressed: () {
             Navigator.of(context).pop();
           },
         )
