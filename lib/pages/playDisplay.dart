@@ -110,7 +110,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
               child: Center(
                 child: RaisedButton(
                   color: player.isReach ? Colors.redAccent: Colors.grey,
-                  child: const Text('リーチ',),
+                  child: const Text('リーチ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),),
                   onPressed: () => setState(() {
                     controlApp.toggleReach(playerID);
                   }),
@@ -146,11 +150,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                   height: 25,
                   width: 35,
                   child: RaisedButton(
-                    color: (player.isStarter) ? Colors.redAccent[200]:Colors.white30,
+                    color: (player.isStarter) ? Colors.orange[700]:Colors.white30,
                     child: Text('${ControlApp.WIND_NAME[controlApp.wind]}',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 15,
                         color: Colors.white,
                       ),),
                     onPressed: () {
@@ -201,7 +205,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     if (controlApp.ronPlayer == _playerID) {
       return RaisedButton(
         color: Colors.blueGrey,
-        child: const Text("戻る"),
+        child: const Text("戻る",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () => setState(() {
           controlApp.toggleInRon(_playerID);
         }),
@@ -210,7 +218,16 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     else{
       return RaisedButton(
         color: controlApp.inRon ? Colors.redAccent[100]:Colors.blueAccent,
-        child: controlApp.inRon ? const Text("放銃"):const Text('ロン'),
+        child: controlApp.inRon ?
+        const Text("放銃",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),):const Text('ロン',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () {
           if (controlApp.inRon) {
             Navigator.push(
@@ -256,7 +273,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     if (controlApp.inDrawn) {
       return RaisedButton(
         color: (controlApp.players[_playerID].isWaitingHand) ? Colors.redAccent[100]:Colors.grey,
-        child: (controlApp.players[_playerID].isWaitingHand) ? Text('聴牌'):Text('ノーテン'),
+        child: Text((controlApp.players[_playerID].isWaitingHand) ? '聴牌':'ノーテン',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () => setState(() {
           controlApp.players[_playerID].toggleWaitingHand();
         }),
@@ -264,8 +285,12 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     }
     else {
       return RaisedButton(
-        color: Colors.lightBlueAccent,
-        child: const Text("ツモ"),
+        color: Colors.teal,
+        child: const Text("ツモ",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () {
           Navigator.push(
               this.context,
