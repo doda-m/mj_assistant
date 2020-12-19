@@ -106,18 +106,21 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 20,
+              height: 23,
               child: Center(
-                child: RaisedButton(
-                  color: player.isReach ? Colors.redAccent: Colors.grey,
-                  child: const Text('リーチ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),),
-                  onPressed: () => setState(() {
-                    controlApp.toggleReach(playerID);
-                  }),
+                child: SizedBox(
+                  width: 130,
+                  child: RaisedButton(
+                  color: player.isReach ? Colors.red[300]: Colors.grey,
+                    child: const Text('リーチ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),),
+                    onPressed: () => setState(() {
+                      controlApp.toggleReach(playerID);
+                    }),
+                  ),
                 ),
               ),
             ),
