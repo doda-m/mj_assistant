@@ -189,8 +189,8 @@ class ControlApp {
       nextRound();
   }
 
-  void ron({
-    @required int winner, @required int looser, @required int fu, @required int han}) {
+  void ron(
+      {@required int winner, @required int looser, @required int fu, @required int han}) {
     int point = 0;
 
     point += (rule.stackBetPoint * _stack);
