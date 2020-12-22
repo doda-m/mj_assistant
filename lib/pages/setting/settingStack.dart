@@ -31,7 +31,7 @@ class _SettingStackState extends State<SettingStackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('設定 (積み棒)'),
+        title: const Text('設定/積み棒'),
         backgroundColor: Colors.green,
       ),
       body: Column(

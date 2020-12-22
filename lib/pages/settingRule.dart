@@ -21,7 +21,7 @@ class _SettingRuleState extends State<SettingRulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('設定'),
+        title: Text('ルール設定'),
         backgroundColor: Colors.green,
       ),
       body: Column(

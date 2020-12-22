@@ -7,6 +7,7 @@ import 'package:mj_assistant/pages/fixedPoint.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'package:mj_assistant/pages/settingRule.dart';
 import 'package:mj_assistant/pages/changePoint.dart';
+import 'package:mj_assistant/pages/instruction/instruction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const bool TSUMO = true;
@@ -33,6 +34,17 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
         appBar:AppBar(
           title: (_isFourVer)? const Text('四人麻雀'):const Text('三人麻雀'),
           backgroundColor: Colors.green,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.help),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context)=>InstructionPage()
+                  )
+              ),
+            )
+          ],
         ),
         body: FutureBuilder(
             future: SharedPreferences.getInstance(),
@@ -138,7 +150,6 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                   ),
                     const SizedBox(width: 10, height: 0,),
                     _scoreDisplay(playerID, player),
-                    const SizedBox(width: 10, height: 0,),
                   ],
                 ),
             ),
@@ -389,7 +400,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-                child: const Text("親決め"),
+                child: const Text("起家決め"),
                 color: (controlApp.inSetStarter) ? Colors.redAccent[100]:null,
                 onPressed: () {
                   _showConfirmAlert(func: 1);
