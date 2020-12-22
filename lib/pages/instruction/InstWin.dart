@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class InstDecideStarterPage extends StatelessWidget {
+class InstWinPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("使い方/起家決め"),
+          title: Text("使い方/ツモ・ロン"),
           backgroundColor: Colors.green,
         ),
         body: SingleChildScrollView(
