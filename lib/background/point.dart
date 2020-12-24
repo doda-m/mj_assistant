@@ -1,3 +1,12 @@
+/*!
+ * mj_assistant
+ *
+ * (c) 2020 Masahiro Dodare.
+ *
+ * This software is released under the GNU General Public License v3.0.
+ * see https://github.com/doda-m/mj_assistant/blob/master/LICENSE
+ */
+
 class Tsumo {
   final int child;
   final int parent;
