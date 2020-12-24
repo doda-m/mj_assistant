@@ -9,9 +9,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mj_assistant/pages/fixedPoint.dart';
-import 'package:mj_assistant/pages/pointTable.dart';
-import 'pages/playDisplay.dart';
+// import 'package:mj_assistant/pages/fixedPoint.dart';
+// import 'package:mj_assistant/pages/pointTable.dart';
+// import 'pages/playDisplay.dart';
 import 'pages/home.dart';
 
 void main() {
@@ -31,12 +31,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       color: Colors.white,
       home: HomePage(),
-      routes: <String, WidgetBuilder> {
-        '/home': (BuildContext context) => HomePage(),
-        '/playDisplay': (BuildContext context) => PlayDisplayPage(),
-        '/pointTable': (BuildContext context) => PointTablePage(),
-        '/fixedPoint': (BuildContext context) => FixedPointPage(),
-      },
+      // routes: <String, WidgetBuilder> {
+      //   '/home': (BuildContext context) => HomePage(),
+      //   '/playDisplay': (BuildContext context) => PlayDisplayPage(),
+      //   '/pointTable': (BuildContext context) => PointTablePage(),
+      //   '/fixedPoint': (BuildContext context) => FixedPointPage(),
+      // },
     );
   }
 }

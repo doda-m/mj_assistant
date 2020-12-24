@@ -1,4 +1,17 @@
+/*!
+ * mj_assistant
+ *
+ * (c) 2020 Masahiro Dodare.
+ *
+ * This software is released under the GNU General Public License v3.0.
+ * see https://github.com/doda-m/mj_assistant/blob/master/LICENSE
+ */
+
 import 'package:flutter/material.dart';
+import 'InstRuleSetting.dart';
+import 'InstPointChange.dart';
+import 'InstPointDifference.dart';
+import 'InstRoundCtl.dart';
 import 'InstDecideStarter.dart';
 import 'InstWin.dart';
 import 'InstDrawn.dart';
@@ -56,28 +69,28 @@ class InstructionPage extends StatelessWidget {
               trailing: Icon(Icons.navigate_next),
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => InstDecideStarterPage()),
+                MaterialPageRoute(builder: (context) => InstRoundCtlPage()),
               ),            ),
             ListTile(
               title: Text('点数差の表示'),
               trailing: Icon(Icons.navigate_next),
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => InstDecideStarterPage()),
+                MaterialPageRoute(builder: (context) => InstPointDifferencePage()),
               ),            ),
             ListTile(
               title: Text('点数の手入力'),
               trailing: Icon(Icons.navigate_next),
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => InstDecideStarterPage()),
+                MaterialPageRoute(builder: (context) => InstPointChangePage()),
               ),            ),
             ListTile(
               title: Text('ルール設定'),
               trailing: Icon(Icons.navigate_next),
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => InstDecideStarterPage()),
+                MaterialPageRoute(builder: (context) => InstRuleSettingPage()),
               ),            ),
           ],
         ),
