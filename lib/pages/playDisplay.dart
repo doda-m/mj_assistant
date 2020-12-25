@@ -32,8 +32,9 @@ class PlayDisplayPage extends StatefulWidget {
 
 class _PlayDisplayState extends State<PlayDisplayPage> {
   ControlApp controlApp;
-  SettingRule settingRule;
-  bool _isFourVer;
+  // SettingRule settingRule;
+  final bool _isFourVer;
+  SharedPreferences _prefs;
   // _PlayDisplayState(this._isFourVer):
   _PlayDisplayState(this._isFourVer);
   //       controlApp = (_isFourVer)? ControlApp(4):ControlApp(3);
@@ -62,6 +63,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
             future: SharedPreferences.getInstance(),
             builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
               if (snapshot.hasData) {
+                _prefs = snapshot.data;
                 controlApp = (_isFourVer)? ControlApp(4, snapshot.data):ControlApp(3, snapshot.data);
                 // settingRule = SettingRule(controlApp.playerNum, snapshot.data);
               }
@@ -446,7 +448,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
 
   Future<bool> _showConfirmAlert({int func}) {
     func = (null == func)? 0:func;
-    AlertParameter alertPara = AlertParameter(func);
+    AlertParameter alertPara = AlertParameter(func, _prefs);
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(

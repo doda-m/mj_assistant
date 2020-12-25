@@ -8,6 +8,7 @@
  */
 
 import 'package:mj_assistant/background/controlApp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AlertParameter {
   static const List<String> TITLE_LIST = [
@@ -34,8 +35,9 @@ class AlertParameter {
   final String _noButton = 'いいえ';
   final String _extraButton = '連荘';
   final int _alertType;
+  final SharedPreferences _prefs;
 
-  AlertParameter(this._alertType):
+  AlertParameter(this._alertType, this._prefs):
         _yesButton = ACTION_LIST[_alertType],
         _title = TITLE_LIST[_alertType],
         _content = CONTENT_LIST[_alertType];
@@ -46,10 +48,10 @@ class AlertParameter {
   String get title => _title;
   String get content => _content;
 
-  ControlApp resultInOK(ControlApp controlApp) {
+  ControlApp resultInOK(ControlApp controlApp,) {
     switch(_alertType) {
       case 1: {
-        controlApp = ControlApp(controlApp.playerNum);
+        controlApp = ControlApp(controlApp.playerNum, _prefs);
         controlApp.preSetStarter();
         return controlApp;
       }
@@ -58,7 +60,7 @@ class AlertParameter {
         return controlApp;
       }
       default: {
-        return ControlApp(controlApp.playerNum);
+        return ControlApp(controlApp.playerNum, _prefs);
       }
     }
   }
