@@ -1,3 +1,12 @@
+/*!
+ * mj_assistant
+ *
+ * (c) 2020 Masahiro Dodare.
+ *
+ * This software is released under the GNU General Public License v3.0.
+ * see https://github.com/doda-m/mj_assistant/blob/master/LICENSE
+ */
+
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 
@@ -31,7 +40,7 @@ class _SettingStackState extends State<SettingStackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('設定 (積み棒)'),
+        title: const Text('設定/積み棒'),
         backgroundColor: Colors.green,
       ),
       body: Column(

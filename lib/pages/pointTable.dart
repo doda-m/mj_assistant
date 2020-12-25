@@ -1,3 +1,12 @@
+/*!
+ * mj_assistant
+ *
+ * (c) 2020 Masahiro Dodare.
+ *
+ * This software is released under the GNU General Public License v3.0.
+ * see https://github.com/doda-m/mj_assistant/blob/master/LICENSE
+ */
+
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 import 'package:mj_assistant/background/point.dart';
@@ -51,24 +60,39 @@ class PointTablePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 RaisedButton(
-                  color: Colors.lightBlueAccent[100],
-                    child: Text('満貫', textAlign: TextAlign.center,),
+                  color: Colors.blue,
+                  child: Text('満貫',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),),
                   onPressed: () => showDialog(
                     context: context,
                     builder: (BuildContext context) => _confirmAlert(context, 11, 0),
                   ),
                 ),
                 RaisedButton(
-                  color: Colors.lightGreenAccent[100],
-                  child: Text('跳満', textAlign: TextAlign.center,),
+                  color: Colors.green,
+                  child: Text('跳満',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),),
                   onPressed: () => showDialog(
                     context: context,
                     builder: (BuildContext context) => _confirmAlert(context, 11, 1),
                   ),
                 ),
                 RaisedButton(
-                  color: Colors.yellow[100],
-                  child: Text('倍満', textAlign: TextAlign.center,),
+                  color: Colors.yellow[700],
+                  child: Text('倍満',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),),
                   onPressed: () => showDialog(
                     context: context,
                     builder: (BuildContext context) => _confirmAlert(context, 11, 2),
@@ -80,16 +104,27 @@ class PointTablePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-                color: Colors.orangeAccent[100],
-                child: Text('三倍満', textAlign: TextAlign.center,),
+                color: Colors.orange[700],
+                child: Text('三倍満',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),),
                 onPressed: () => showDialog(
                   context: context,
                   builder: (BuildContext context) => _confirmAlert(context, 11, 3),
                 ),
               ),
               RaisedButton(
-                color: Colors.redAccent[100],
-                child: Text('役満', textAlign: TextAlign.center,),
+                color: Colors.red[400],
+                child: Text('役満',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 onPressed: () => showDialog(
                   context: context,
                   builder: (BuildContext context) => _confirmAlert(context, 11, 4),

@@ -1,5 +1,15 @@
+/*!
+ * mj_assistant
+ *
+ * (c) 2020 Masahiro Dodare.
+ *
+ * This software is released under the GNU General Public License v3.0.
+ * see https://github.com/doda-m/mj_assistant/blob/master/LICENSE
+ */
+
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/pages/playDisplay.dart';
+import 'package:mj_assistant/pages/instruction/instruction.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -49,6 +59,24 @@ class HomePage extends StatelessWidget {
                           builder: (context) => PlayDisplayPage(
                             isFourVer: false,
                           )
+                      )
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 300,
+                height: 70,
+                child: RaisedButton(
+                  child: Text('使い方',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                    ),),
+                  color: Colors.amber,
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InstructionPage()
                       )
                   ),
                 ),

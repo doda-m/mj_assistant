@@ -26,7 +26,11 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+<<<<<<< HEAD
     compileSdkVersion 29
+=======
+    compileSdkVersion 30
+>>>>>>> master
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -40,9 +44,9 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "dodare.develop.mj_assistant"
         minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 6
-        versionName '1.4'
+        targetSdkVersion 30
+        versionCode 7
+        versionName '1.5'
     }
 
     buildTypes {

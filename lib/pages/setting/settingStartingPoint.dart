@@ -1,3 +1,12 @@
+/*!
+ * mj_assistant
+ *
+ * (c) 2020 Masahiro Dodare.
+ *
+ * This software is released under the GNU General Public License v3.0.
+ * see https://github.com/doda-m/mj_assistant/blob/master/LICENSE
+ */
+
 import 'package:flutter/material.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 

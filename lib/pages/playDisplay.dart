@@ -1,12 +1,23 @@
+/*!
+ * mj_assistant
+ *
+ * (c) 2020 Masahiro Dodare.
+ *
+ * This software is released under the GNU General Public License v3.0.
+ * see https://github.com/doda-m/mj_assistant/blob/master/LICENSE
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 import 'package:mj_assistant/background/player.dart';
+import 'package:mj_assistant/background/rule.dart';
 import 'package:mj_assistant/pages/alert.dart';
 import 'package:mj_assistant/pages/fixedPoint.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
 import 'package:mj_assistant/pages/settingRule.dart';
 import 'package:mj_assistant/pages/changePoint.dart';
+import 'package:mj_assistant/pages/instruction/instruction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const bool TSUMO = true;
@@ -21,9 +32,11 @@ class PlayDisplayPage extends StatefulWidget {
 
 class _PlayDisplayState extends State<PlayDisplayPage> {
   ControlApp controlApp;
+  SettingRule settingRule;
   bool _isFourVer;
-  _PlayDisplayState(this._isFourVer):
-        controlApp = (_isFourVer)? ControlApp(4):ControlApp(3);
+  // _PlayDisplayState(this._isFourVer):
+  _PlayDisplayState(this._isFourVer);
+  //       controlApp = (_isFourVer)? ControlApp(4):ControlApp(3);
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +46,24 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
         appBar:AppBar(
           title: (_isFourVer)? const Text('四人麻雀'):const Text('三人麻雀'),
           backgroundColor: Colors.green,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.help),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context)=>InstructionPage()
+                  )
+              ),
+            )
+          ],
         ),
         body: FutureBuilder(
             future: SharedPreferences.getInstance(),
             builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
               if (snapshot.hasData) {
+                controlApp = (_isFourVer)? ControlApp(4, snapshot.data):ControlApp(3, snapshot.data);
+                // settingRule = SettingRule(controlApp.playerNum, snapshot.data);
               }
               else {
                 return Center(
@@ -106,14 +132,21 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 20,
+              height: 23,
               child: Center(
-                child: RaisedButton(
-                  color: player.isReach ? Colors.redAccent: Colors.grey,
-                  child: const Text('リーチ',),
-                  onPressed: () => setState(() {
-                    controlApp.toggleReach(playerID);
-                  }),
+                child: SizedBox(
+                  width: 130,
+                  child: RaisedButton(
+                  color: player.isReach ? Colors.red[300]: Colors.grey,
+                    child: const Text('リーチ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),),
+                    onPressed: () => setState(() {
+                      controlApp.toggleReach(playerID);
+                    }),
+                  ),
                 ),
               ),
             ),
@@ -131,7 +164,6 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                   ),
                     const SizedBox(width: 10, height: 0,),
                     _scoreDisplay(playerID, player),
-                    const SizedBox(width: 10, height: 0,),
                   ],
                 ),
             ),
@@ -146,11 +178,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                   height: 25,
                   width: 35,
                   child: RaisedButton(
-                    color: (player.isStarter) ? Colors.redAccent[200]:Colors.white30,
+                    color: (player.isStarter) ? Colors.orange[700]:Colors.white30,
                     child: Text('${ControlApp.WIND_NAME[controlApp.wind]}',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 15,
                         color: Colors.white,
                       ),),
                     onPressed: () {
@@ -175,7 +207,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       child: RaisedButton(
         color: Colors.white,
         child: controlApp.inDiffScore ?
-        Text('${_player.score - controlApp.players[controlApp.diffBasePlayer].score}', style: TextStyle(fontSize: 28)):
+        Text('${_player.score - controlApp.players[controlApp.diffBasePlayer].score}', style: const TextStyle(fontSize: 28)):
         Text('${_player.score}', style: const TextStyle(fontSize: 28),),
         onPressed: () {
           setState(() {
@@ -201,7 +233,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     if (controlApp.ronPlayer == _playerID) {
       return RaisedButton(
         color: Colors.blueGrey,
-        child: const Text("戻る"),
+        child: const Text("戻る",
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () => setState(() {
           controlApp.toggleInRon(_playerID);
         }),
@@ -210,7 +246,16 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     else{
       return RaisedButton(
         color: controlApp.inRon ? Colors.redAccent[100]:Colors.blueAccent,
-        child: controlApp.inRon ? const Text("放銃"):const Text('ロン'),
+        child: controlApp.inRon ?
+        const Text("放銃",
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),):const Text('ロン',
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () {
           if (controlApp.inRon) {
             Navigator.push(
@@ -256,7 +301,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     if (controlApp.inDrawn) {
       return RaisedButton(
         color: (controlApp.players[_playerID].isWaitingHand) ? Colors.redAccent[100]:Colors.grey,
-        child: (controlApp.players[_playerID].isWaitingHand) ? Text('聴牌'):Text('ノーテン'),
+        child: Text((controlApp.players[_playerID].isWaitingHand) ? '聴牌':'ノーテン',
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () => setState(() {
           controlApp.players[_playerID].toggleWaitingHand();
         }),
@@ -264,8 +313,12 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
     }
     else {
       return RaisedButton(
-        color: Colors.lightBlueAccent,
-        child: const Text("ツモ"),
+        color: Colors.teal,
+        child: const Text("ツモ",
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),),
         onPressed: () {
           Navigator.push(
               this.context,
@@ -355,13 +408,13 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                   controlApp.decresementStack();
                 }),
               ),
-              ],
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-                child: const Text("親決め"),
+                child: const Text("起家決め"),
                 color: (controlApp.inSetStarter) ? Colors.redAccent[100]:null,
                 onPressed: () {
                   _showConfirmAlert(func: 1);
