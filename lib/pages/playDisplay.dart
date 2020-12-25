@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mj_assistant/background/controlApp.dart';
 import 'package:mj_assistant/background/player.dart';
+import 'package:mj_assistant/background/rule.dart';
 import 'package:mj_assistant/pages/alert.dart';
 import 'package:mj_assistant/pages/fixedPoint.dart';
 import 'package:mj_assistant/pages/pointTable.dart';
@@ -31,9 +32,11 @@ class PlayDisplayPage extends StatefulWidget {
 
 class _PlayDisplayState extends State<PlayDisplayPage> {
   ControlApp controlApp;
+  SettingRule settingRule;
   bool _isFourVer;
-  _PlayDisplayState(this._isFourVer):
-        controlApp = (_isFourVer)? ControlApp(4):ControlApp(3);
+  // _PlayDisplayState(this._isFourVer):
+  _PlayDisplayState(this._isFourVer);
+  //       controlApp = (_isFourVer)? ControlApp(4):ControlApp(3);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
           backgroundColor: Colors.green,
           actions: [
             IconButton(
-              icon: Icon(Icons.help),
+              icon: const Icon(Icons.help),
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -59,6 +62,8 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
             future: SharedPreferences.getInstance(),
             builder: (BuildContext context, AsyncSnapshot <SharedPreferences> snapshot) {
               if (snapshot.hasData) {
+                controlApp = (_isFourVer)? ControlApp(4, snapshot.data):ControlApp(3, snapshot.data);
+                // settingRule = SettingRule(controlApp.playerNum, snapshot.data);
               }
               else {
                 return Center(
@@ -202,7 +207,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       child: RaisedButton(
         color: Colors.white,
         child: controlApp.inDiffScore ?
-        Text('${_player.score - controlApp.players[controlApp.diffBasePlayer].score}', style: TextStyle(fontSize: 28)):
+        Text('${_player.score - controlApp.players[controlApp.diffBasePlayer].score}', style: const TextStyle(fontSize: 28)):
         Text('${_player.score}', style: const TextStyle(fontSize: 28),),
         onPressed: () {
           setState(() {
@@ -229,7 +234,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       return RaisedButton(
         color: Colors.blueGrey,
         child: const Text("戻る",
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),),
@@ -243,11 +248,11 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
         color: controlApp.inRon ? Colors.redAccent[100]:Colors.blueAccent,
         child: controlApp.inRon ?
         const Text("放銃",
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),):const Text('ロン',
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),),
@@ -297,7 +302,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       return RaisedButton(
         color: (controlApp.players[_playerID].isWaitingHand) ? Colors.redAccent[100]:Colors.grey,
         child: Text((controlApp.players[_playerID].isWaitingHand) ? '聴牌':'ノーテン',
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),),
@@ -310,7 +315,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
       return RaisedButton(
         color: Colors.teal,
         child: const Text("ツモ",
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),),
@@ -403,7 +408,7 @@ class _PlayDisplayState extends State<PlayDisplayPage> {
                   controlApp.decresementStack();
                 }),
               ),
-              ],
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

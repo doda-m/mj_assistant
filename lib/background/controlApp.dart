@@ -9,6 +9,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mj_assistant/background/point.dart';
 import 'player.dart';
 import 'rule.dart';
@@ -18,6 +19,7 @@ class ControlApp {
   static const List<String> ROUND_NAME = ['一局', '二局', '三局', '四局'];
   final List<Player> players;
   final SettingRule rule;
+  final SharedPreferences _prefs;
   int _defaultBets;
   int _prevalentWind;
   int _round;
@@ -34,14 +36,14 @@ class ControlApp {
   int get currentParent => players.indexWhere((element) => element.isParent);
 
 
-  ControlApp(int playerNum):
+  ControlApp(int playerNum, this._prefs):
         _defaultBets = (4 == playerNum) ? 3000:2000,
         _prevalentWind = 0,
         _round = 0,
         _stack = 0,
         _reachBets = 0,
         _starter = 0,
-        rule = SettingRule(playerNum),
+        rule = SettingRule(playerNum, _prefs),
         players = List.generate(playerNum, (index) => Player(index, playerNum, index, index == 0));
 
 
